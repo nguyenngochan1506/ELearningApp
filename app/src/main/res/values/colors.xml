@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#2196F3</color> <!-- Màu xanh dương chuẩn của Material Design -->
+    <color name="green">#4CAF50</color> <!-- nút đăng nhập -->
+    <color name="teal_700">#018786</color> <!-- chữ "quên mật khẩu" -->
+
 </resources>
