@@ -9,6 +9,9 @@ import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import android.content.Intent;
+import android.widget.ImageView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private CourseAdapter adapter;
     private List<Course> courseList;
     private ImageButton menuButton;
+    private ImageView profileImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +28,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        menuButton = findViewById(R.id.menuButton);
+        menuButton = findViewById(R.id.menuButton);//menu button
+
+        profileImage = findViewById(R.id.profileImage);//ảnh đại diện
+        //sự kiện click ảnh đại diện -> login.xml
+        profileImage.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
+
         recyclerView = findViewById(R.id.recyclerViewCourses);
 
         // Set up RecyclerView
