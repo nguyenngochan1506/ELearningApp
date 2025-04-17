@@ -1,256 +1,83 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FB">
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <LinearLayout
+    <!-- Header section -->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:background="@color/white"
         android:padding="16dp">
 
-        <!-- 1. Banner Chính -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@drawable/banner_bg"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/titleBanner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/titleBanner"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal"/>
-
-        </RelativeLayout>
-
-        <!-- 2. Lộ trình học tập -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Tiến trình của bạn"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:background="@drawable/border"
-            android:layout_width="match_parent"
-            android:layout_height="83dp"
-            android:layout_marginTop="16dp"
-
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="215dp"
-                android:layout_height="100dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/course_cover" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Khóa học: Lập trình FULLSTACK"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tiếp tục học"
-                    android:textSize="12sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 3. Danh mục khóa học -->
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+    <!-- Menu-->
+        <ImageButton
+            android:id="@+id/menuButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:max="100"
-            android:progress="60"
-            android:progressTint="#4CAF50" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Menu button"
+            android:src="@drawable/ic_menu" />
 
+        <!-- title E-Learning App-->
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Danh mục phổ biến"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:columnCount="2"
-            android:columnOrderPreserved="false">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                android:background="@drawable/category_bg1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_columnWeight="1"
-                android:layout_margin="4dp"
-                android:background="@drawable/category_bg2"
-                android:gravity="center"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </GridLayout>
-
-        <!-- 4. Khóa học nổi bật -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Khóa học dành cho bạn"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="215dp"
-                    android:layout_height="100dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/card_bg1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-
-                    <TextView android:text="⭐ 4.9/5" />
-
-                    <TextView
-                        android:text="Flutter nâng cao - A. Tùng"
-                        android:textStyle="bold" />
-
-                    <TextView android:text="Miễn phí" />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <!-- 5. Giới thiệu giảng viên -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="Gặp gỡ giảng viên của chúng tôi"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Dạng carousel -->
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:background="@drawable/avatar_circle"
-                        android:src="@drawable/teacher_avatar" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="Nguyễn Văn A" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="1000+ học viên" />
-                </LinearLayout>
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <!-- 6. Thống kê -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="#E3F2FD"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="👨‍🎓 10,000+ Học viên"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="⏱ 2,000+ Giờ học"
-                android:textAlignment="center" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="✅ 100% Hài lòng"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xem chi tiết" />
-    </LinearLayout>
-</ScrollView>
+            android:layout_centerInParent="true"
+            android:text="E-Learning App"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Ảnh đại diện-->
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/circle_background"
+            android:contentDescription="Avatar mặc định"
+            android:rotationY="-1"
+            android:src="@drawable/avatar_default" />
+    </RelativeLayout>
+
+    <!-- Title section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:paddingBottom="8dp"
+        android:text="Khóa học của tôi"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <!-- Search bar -->
+    <EditText
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/search_background"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:hint="Filter my courses"
+        android:padding="12dp" />
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCourses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp" />
+
+</LinearLayout>

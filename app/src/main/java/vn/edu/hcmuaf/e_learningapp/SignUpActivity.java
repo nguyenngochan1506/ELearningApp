@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ public class SignUpActivity extends AppCompatActivity {
     private CheckBox termsCheckbox;
     private Button signupButton;
     private TextView loginText;
+    private ImageButton returnButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
         termsCheckbox = findViewById(R.id.termsCheckbox);
         signupButton = findViewById(R.id.signupButton);
         loginText = findViewById(R.id.loginText);
+        returnButton = findViewById(R.id.returnIButton);//nút quay lại trang chủ
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +47,12 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+        });
+
+        //sự kiện click nút quay lại -> trang login
+        returnButton.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
         });
     }
 

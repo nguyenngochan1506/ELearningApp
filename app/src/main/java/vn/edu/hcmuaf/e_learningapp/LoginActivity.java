@@ -1,10 +1,12 @@
 package vn.edu.hcmuaf.e_learningapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +16,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput, passwordInput;
     private Button loginButton;
     private TextView signupText, forgotPasswordText;
+    private ImageButton returnButton;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
         forgotPasswordText = findViewById(R.id.forgotPassword);
-
+        returnButton = findViewById(R.id.returnIButton);//nút quay lại trang chủ
+      
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,6 +54,12 @@ public class LoginActivity extends AppCompatActivity {
                 // Thực hiện hành động khi quên mật khẩu, ví dụ như mở màn hình khôi phục mật khẩu
                 Toast.makeText(LoginActivity.this, "Quên mật khẩu", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        //sự kiện click nút quay lại -> trang chủ
+        returnButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         });
     }
 

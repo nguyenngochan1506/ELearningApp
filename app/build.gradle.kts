@@ -48,7 +48,6 @@ dependencies {
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
-
     // Kiểm thử
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
