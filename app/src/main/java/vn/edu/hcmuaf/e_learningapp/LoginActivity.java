@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         signupText = findViewById(R.id.signupText);
         forgotPasswordText = findViewById(R.id.forgotPassword);
         returnButton = findViewById(R.id.returnIButton);//nút quay lại trang chủ
-
+      
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
