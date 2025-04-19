@@ -18,8 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CourseAdapter adapter;
     private List<Course> courseList;
-    private ImageButton menuButton;
-    private ImageView profileImage;
+    private ImageView profileIcon;
 
 
     @Override
@@ -27,17 +26,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize views
-        menuButton = findViewById(R.id.menuButton);//menu button
+        //imgicon ảnh đại diện
+        ImageView profileIcon = findViewById(R.id.profileIcon);
+        recyclerView = findViewById(R.id.recyclerViewCourses);
 
-        profileImage = findViewById(R.id.profileImage);//ảnh đại diện
         //sự kiện click ảnh đại diện -> login.xml
-        profileImage.setOnClickListener(v -> {
+        profileIcon.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
-
-        recyclerView = findViewById(R.id.recyclerViewCourses);
 
         // Set up RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -45,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CourseAdapter(courseList);
         recyclerView.setAdapter(adapter);
 
-        // Set up menu button click listener
-        menuButton.setOnClickListener(v -> {
-
-        });
     }
   
 }
