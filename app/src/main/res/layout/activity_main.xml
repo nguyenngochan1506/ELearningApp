@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <include layout="@layout/header"/>
+
     <!-- Header section -->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -79,5 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="8dp" />
+
+    <include layout="@layout/footer"/>
 
 </LinearLayout>
