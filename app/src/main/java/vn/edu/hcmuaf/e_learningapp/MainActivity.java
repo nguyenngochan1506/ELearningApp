@@ -1,25 +1,27 @@
 package vn.edu.hcmuaf.e_learningapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
+
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
+import vn.edu.hcmuaf.e_learningapp.features.courses.CourseListActivity;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
-import android.content.Intent;
-import android.widget.ImageView;
-
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private CourseAdapter adapter;
+    private RecyclerView recyclerViewCourses;
+    private CourseAdapter courseAdapter;
     private List<Course> courseList;
     private ImageView profileIcon;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,5 @@ public class MainActivity extends AppCompatActivity {
         courseList = CourseRepository.getCourses();
         adapter = new CourseAdapter(courseList);
         recyclerView.setAdapter(adapter);
-
     }
-  
 }
