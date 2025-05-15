@@ -1,15 +1,12 @@
-package vn.edu.hcmuaf.e_learningapp;
+package vn.edu.hcmuaf.e_learningapp.core.base;
 
 import android.os.Bundle;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.tabs.TabLayout;
+
+import vn.edu.hcmuaf.e_learningapp.R;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -27,6 +24,7 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         initViews();
         setupTabs();
+        loadDataFromIntent();
     }
 
     private void initViews() {
@@ -38,28 +36,34 @@ public class CourseDetailActivity extends AppCompatActivity {
         editTextQuestion = findViewById(R.id.editTextQuestion);
         imgCover = findViewById(R.id.imgCover);
         tabLayout = findViewById(R.id.tabLayout);
-
-        // Sample dynamic logic
-        checkBoxDone.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (b) {
-                Toast.makeText(this, "Bạn đã hoàn thành bài học!", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void setupTabs() {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(CourseDetailActivity.this, "Chuyển sang: " + tab.getText(), Toast.LENGTH_SHORT).show();
-                // TODO: Hiển thị nội dung phù hợp tùy theo tab được chọn
+            @Override public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(CourseDetailActivity.this, "Đã chọn: " + tab.getText(), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
         });
+
+        checkBoxDone.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked)
+                Toast.makeText(this, "Đã hoàn thành bài học!", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void loadDataFromIntent() {
+        String title = getIntent().getStringExtra("title");
+        String instructor = getIntent().getStringExtra("instructor");
+        String rating = getIntent().getStringExtra("rating");
+        int students = getIntent().getIntExtra("students", 0);
+        int imageResId = getIntent().getIntExtra("image", R.drawable.course_cover);
+
+        tvCourseTitle.setText(title);
+        tvInstructor.setText(instructor);
+        tvRating.setText("⭐ " + rating + " • " + students + " học viên");
+        imgCover.setImageResource(imageResId);
     }
 }

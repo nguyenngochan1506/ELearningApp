@@ -21,34 +21,27 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCourses;
     private CourseAdapter courseAdapter;
     private List<Course> courseList;
-    private ImageButton menuButton;
-    private ImageView profileImage;
+    private ImageView profileIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Gán view từ layout
-        recyclerViewCourses = findViewById(R.id.recyclerViewCourses);
-        menuButton = findViewById(R.id.menuButton);
-        profileImage = findViewById(R.id.profileImage);
+        //imgicon ảnh đại diện
+        ImageView profileIcon = findViewById(R.id.profileIcon);
+        recyclerView = findViewById(R.id.recyclerViewCourses);
 
-        // Sự kiện click vào ảnh đại diện để sang LoginActivity
-        profileImage.setOnClickListener(v -> {
+        //sự kiện click ảnh đại diện -> login.xml
+        profileIcon.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
-        // Thiết lập RecyclerView hiển thị danh sách khóa học
-        recyclerViewCourses.setLayoutManager(new LinearLayoutManager(this));
-        courseList = CourseRepository.getCourses(); // dữ liệu tạm thời
-        courseAdapter = new CourseAdapter(courseList);
-        recyclerViewCourses.setAdapter(courseAdapter);
-
-        // Sự kiện click menu (nếu cần sau này)
-        menuButton.setOnClickListener(v -> {
-            // TODO: Mở navigation drawer hoặc menu
-        });
+        // Set up RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        courseList = CourseRepository.getCourses();
+        adapter = new CourseAdapter(courseList);
+        recyclerView.setAdapter(adapter);
     }
 }

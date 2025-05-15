@@ -17,6 +17,7 @@ import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.R;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
+
     private List<Course> courseList;
 
     public CourseAdapter(List<Course> courseList) {
