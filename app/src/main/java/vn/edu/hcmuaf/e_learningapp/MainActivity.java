@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.e_learningapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
