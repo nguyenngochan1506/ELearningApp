@@ -29,22 +29,24 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    buildToolsVersion = "35.0.1"
 }
 
 dependencies {
-
-    //cơ baản
+    // Cơ bản
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+
     // Retrofit, OkHttp, Gson cho API
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.gson)
-    //lomnbok
+
+    // Lombok
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
 
@@ -53,4 +55,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    // Thêm ViewPager2 và CardView
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 }

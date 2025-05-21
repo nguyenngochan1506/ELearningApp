@@ -1,15 +1,19 @@
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.CourseDetailActivity;
+import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder> {
 
@@ -34,6 +38,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         holder.progressBar.setProgress(course.getProgress());
         holder.progressText.setText(course.getProgress() + "%");
         holder.courseImage.setImageResource(course.getImageResId());
+        holder.ratingBar.setRating(course.getRating());
+        holder.tvPrice.setText(course.getPrice());
+        holder.btnViewDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), CourseDetailActivity.class);
+            intent.putExtra("course_title", course.getTitle());
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -42,9 +53,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courseTitle, courseInstructor, progressText;
+        TextView courseTitle, courseInstructor, progressText, tvPrice;
         ProgressBar progressBar;
         ImageView courseImage;
+        RatingBar ratingBar;
+        Button btnViewDetails;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -53,6 +66,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             progressBar = itemView.findViewById(R.id.progressBar);
             progressText = itemView.findViewById(R.id.progressText);
             courseImage = itemView.findViewById(R.id.courseImage);
+            ratingBar = itemView.findViewById(R.id.ratingBar);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
+            btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
         }
     }
 }

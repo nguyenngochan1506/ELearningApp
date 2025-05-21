@@ -1,204 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CourseDetailActivity">
+    android:background="#F5F5F5">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-    <!-- ✅ Header cố định -->
-    <include layout="@layout/header" />
-    <!-- A. Thông tin chung -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        <!-- Course Cover Image -->
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/course_image1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="Course Cover" />
 
-        <LinearLayout
-            android:orientation="vertical"
+        <!-- Course Title -->
+        <TextView
+            android:id="@+id/tvCourseTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:text="Course Title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/imgCover"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-            <!-- Ảnh bìa khóa học -->
-            <ImageView
-                android:id="@+id/imgCover"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/course_cover" />
+        <!-- Instructor -->
+        <TextView
+            android:id="@+id/tvInstructor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giảng viên: Instructor Name"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/tvCourseTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp" />
 
-            <!-- Tên khóa học + Giảng viên -->
-            <TextView
-                android:id="@+id/tvCourseTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Lập trình Java cho người mới bắt đầu"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="8dp" />
+        <!-- Rating -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.1"
+            style="?android:attr/ratingBarStyleSmall"
+            app:layout_constraintTop_toBottomOf="@id/tvInstructor"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+        <!-- Price -->
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giá: Miễn phí"
+            android:textSize="16sp"
+            android:textColor="#FF6200EE"
+            app:layout_constraintTop_toBottomOf="@id/ratingBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/instructor_avatar"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/circle_bg" />
+        <!-- Progress -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvPrice"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-                <TextView
-                    android:id="@+id/tvInstructor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nguyễn Văn A - Giảng viên"
-                    android:textSize="14sp" />
-            </LinearLayout>
+        <!-- Enroll Button -->
+        <Button
+            android:id="@+id/btnEnroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký khóa học"
+            android:backgroundTint="#FF6200EE"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/progressBar"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-            <!-- Đánh giá + Học viên -->
-            <TextView
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐ 4.5/5 • 1.200 học viên"
-                android:layout_marginTop="8dp"
-                android:textSize="14sp" />
+        <!-- Checkbox for Lesson Completion -->
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoàn thành bài học"
+            app:layout_constraintTop_toBottomOf="@id/btnEnroll"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-            <!-- Tabs -->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:tabMode="scrollable">
+        <!-- Question Input -->
+        <EditText
+            android:id="@+id/editTextQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Đặt câu hỏi của bạn"
+            app:layout_constraintTop_toBottomOf="@id/checkBox"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-                <com.google.android.material.tabs.TabItem android:text="Nội dung"  android:layout_height="wrap_content" android:layout_width="match_parent"/>
-                <com.google.android.material.tabs.TabItem android:text="Thảo luận" android:layout_height="wrap_content" android:layout_width="match_parent"/>
-                <com.google.android.material.tabs.TabItem android:text="Tài liệu" android:layout_height="wrap_content" android:layout_width="match_parent"/>
-                <com.google.android.material.tabs.TabItem android:text="Bài tập" android:layout_height="wrap_content" android:layout_width="match_parent"/>
-                <com.google.android.material.tabs.TabItem android:text="Thống kê" android:layout_height="wrap_content" android:layout_width="match_parent"/>
-            </com.google.android.material.tabs.TabLayout>
+        <!-- TabLayout -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:layout_constraintTop_toBottomOf="@id/editTextQuestion"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="16dp" />
 
-            <!-- Progress học tập -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="12/20 bài hoàn thành"
-                android:layout_marginTop="12dp" />
+        <!-- Placeholder for Tab Content -->
+        <FrameLayout
+            android:id="@+id/tabContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="8dp" />
 
-            <ProgressBar
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:progress="60" />
-
-            <!-- Danh sách chương học -->
-            <TextView
-                android:text="Chương 3: Cấu trúc dữ liệu"
-                android:textStyle="bold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-
-            <TextView
-                android:text="5 bài • 2 giờ 15 phút"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- Danh sách bài học -->
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:text="✅ Bài 1: Mảng và danh sách"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:text="🟡 Bài 2: Stack và Queue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <!-- Player video (mock) -->
-            <TextView
-                android:text="[Video bài giảng ở đây]"
-                android:layout_marginTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="24dp"
-                android:background="#EEE" />
-
-            <TextView
-                android:text="Tài liệu: slide_bai2.pdf"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                android:text="Tôi đã hoàn thành bài này"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="12dp">
-
-                <Button
-                    android:text="Bài trước"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <Space
-                    android:layout_width="16dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:text="Bài tiếp theo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <!-- Thảo luận -->
-            <TextView
-                android:text="Bạn có thắc mắc gì về bài học?"
-                android:layout_marginTop="24dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/editTextQuestion"
-                android:hint="Nhập câu hỏi tại đây..."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_rounded"
-                android:minLines="3"
-                android:padding="12dp" />
-
-            <Button
-                android:text="Gửi câu hỏi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
-    </ScrollView>
-    </LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

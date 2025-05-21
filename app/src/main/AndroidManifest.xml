@@ -38,6 +38,9 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".CourseListActivity" />
+        <activity android:name=".CourseDetailActivity" />
+
 
     </application>
 
