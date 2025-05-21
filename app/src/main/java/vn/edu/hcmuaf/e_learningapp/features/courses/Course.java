@@ -1,27 +1,26 @@
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Course {
-    private int id;
     private String title;
     private String instructor;
+    private int progress;
+    private int imageResId;
     private float rating;
-    private int numStudents;
-    private String imageUrl;
+    private String price;
 
-    public Course(int id, String title, String instructor, float rating, int numStudents, String imageUrl) {
-        this.id = id;
+    public Course(String title, String instructor, int progress, int imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
+        this.progress = progress;
+        this.imageResId = imageResId;
         this.rating = rating;
-        this.numStudents = numStudents;
-        this.imageUrl = imageUrl;
+        this.price = price;
     }
 
-
+    public String getTitle() { return title; }
+    public String getInstructor() { return instructor; }
+    public int getProgress() { return progress; }
+    public int getImageResId() { return imageResId; }
+    public float getRating() { return rating; }
+    public String getPrice() { return price; }
 }

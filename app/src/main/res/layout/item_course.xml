@@ -1,51 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <!-- Ảnh bìa khóa học -->
-    <ImageView
-        android:id="@+id/imgCourseImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/course_cover"
-        android:layout_marginEnd="16dp"
-        android:scaleType="centerCrop" />
-
-    <!-- Thông tin khóa học -->
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Tiêu đề khóa học -->
+        <ImageView
+            android:id="@+id/courseImage"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/course_image1" />
+
         <TextView
-            android:id="@+id/tvCourseTitle"
+            android:id="@+id/courseTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lập trình Java"
+            android:text="Course Title"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
 
-        <!-- Giảng viên -->
         <TextView
-            android:id="@+id/tvInstructor"
+            android:id="@+id/courseInstructor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nguyễn Văn A"
+            android:text="Instructor Name"
             android:textSize="14sp"
-            android:textColor="#666666" />
+            android:layout_marginTop="4dp" />
 
-        <!-- Đánh giá và học viên -->
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:layout_marginTop="4dp"
+            style="?android:attr/ratingBarStyleSmall" />
+
         <TextView
-            android:id="@+id/tvRating"
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:textSize="14sp"
+            android:textColor="#FF6200EE"
+            android:layout_marginTop="4dp" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="⭐ 4.5 (1,200 học viên)"
-            android:textSize="12sp"
-            android:textColor="#666666" />
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/progressText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0%"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnViewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem chi tiết"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

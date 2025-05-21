@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.features.submission.Submission;
+import vn.edu.hcmuaf.e_learningapp.features.submission.SubmissionAdapter;
+
 public class GradingFragment extends Fragment {
 
     @Override
