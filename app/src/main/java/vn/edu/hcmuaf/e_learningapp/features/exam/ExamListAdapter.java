@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.R;
+
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamViewHolder> {
 
     private List<Exam> examList;
