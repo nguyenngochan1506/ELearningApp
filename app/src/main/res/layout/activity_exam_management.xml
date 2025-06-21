@@ -8,7 +8,7 @@
     tools:context=".ExamManagementActivity">
 
     <!-- Include header -->
-    <include layout="@layout/header" />
+    <include layout="@menu/nav_menu" />
 
     <!-- Tab layout for exam modes -->
     <com.google.android.material.tabs.TabLayout
