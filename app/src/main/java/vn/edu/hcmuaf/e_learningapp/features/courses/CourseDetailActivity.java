@@ -15,6 +15,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -47,8 +48,9 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         // Handle enroll button
         btnEnroll.setOnClickListener(v -> {
-            Toast.makeText(this, "Đã đăng ký khóa học!", Toast.LENGTH_SHORT).show();
-            // TODO: Implement enrollment logic (e.g., API call)
+            Intent intent = new Intent(this, LessonActivity.class);
+            intent.putExtra("course_id", course.getId());
+            startActivity(intent);
         });
     }
 

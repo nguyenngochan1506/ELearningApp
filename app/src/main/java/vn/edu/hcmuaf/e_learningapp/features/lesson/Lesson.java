@@ -2,11 +2,7 @@ package vn.edu.hcmuaf.e_learningapp.features.lesson;
 
 import java.io.Serializable;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 public class Lesson implements Serializable {
     private int id;
     private String name;
