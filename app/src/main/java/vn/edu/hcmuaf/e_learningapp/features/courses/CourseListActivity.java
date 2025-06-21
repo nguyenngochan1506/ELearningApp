@@ -29,10 +29,10 @@ public class CourseListActivity extends AppCompatActivity {
 
         // SET CỨNG DỮ LIỆU DEMO
         courseList = new ArrayList<>();
-        courseList.add(new Course(1, "Lập trình Java cơ bản", "Nguyễn Văn A", 4.5f, 1200, "https://i.imgur.com/3G3K5Yy.jpg"));
-        courseList.add(new Course(2, "Thiết kế Web với HTML/CSS", "Trần Thị B", 4.7f, 950, "https://i.imgur.com/dM7Thhn.jpg"));
-        courseList.add(new Course(3, "ReactJS từ cơ bản đến nâng cao", "Lê Văn C", 4.8f, 2100, "https://i.imgur.com/OtP2fGX.jpg"));
-        courseList.add(new Course(4, "Lập trình Android với Java", "Phạm Minh D", 4.6f, 1500, "https://i.imgur.com/H5Zjs9N.jpg"));
+        courseList.add(new Course( "Lập trình Java cơ bản", "Nguyễn Văn A", 50, 1200,4.5f,  "https://i.imgur.com/3G3K5Yy.jpg"));
+        courseList.add(new Course("Thiết kế Web với HTML/CSS", "Trần Thị B", 40, 950, 4.5f,"https://i.imgur.com/dM7Thhn.jpg"));
+        courseList.add(new Course("ReactJS từ cơ bản đến nâng cao", "Lê Văn C", 40, 2100,4.5f, "https://i.imgur.com/OtP2fGX.jpg"));
+        courseList.add(new Course( "Lập trình Android với Java", "Phạm Minh D", 40, 1500,4.5f, "https://i.imgur.com/H5Zjs9N.jpg"));
 
         courseAdapter = new CourseAdapter(courseList);
         recyclerView.setAdapter(courseAdapter);

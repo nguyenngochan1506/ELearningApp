@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (email.equals("user@example.com") && password.equals("password123")) {
+        if (email.equals("123") && password.equals("123")) {
             Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

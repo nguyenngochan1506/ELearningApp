@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.features.result.Result;
+import vn.edu.hcmuaf.e_learningapp.features.result.ResultsAdapter;
+
 public class ResultsFragment extends Fragment {
 
     @Override
