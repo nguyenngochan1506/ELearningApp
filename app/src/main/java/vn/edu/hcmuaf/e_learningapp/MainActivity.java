@@ -3,13 +3,16 @@ package vn.edu.hcmuaf.e_learningapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
@@ -25,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvCategories, rvFeaturedCourses, rvInstructors;
     private ViewPager2 vpBanner;
     private Button btnStartNow, btnViewCourses;
-    private ImageView profileIcon;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
     private List<Course> courseList;
     private List<Category> categoryList;
     private List<Instructor> instructorList;
@@ -36,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Initialize views
-        profileIcon = findViewById(R.id.profileIcon);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toolbar = findViewById(R.id.toolbar);
         vpBanner = findViewById(R.id.vpBanner);
         btnStartNow = findViewById(R.id.btnStartNow);
         btnViewCourses = findViewById(R.id.btnViewCourses);
@@ -44,10 +51,32 @@ public class MainActivity extends AppCompatActivity {
         rvFeaturedCourses = findViewById(R.id.rvFeaturedCourses);
         rvInstructors = findViewById(R.id.rvInstructors);
 
-        // Profile icon click -> Navigate to LoginActivity
-        profileIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
+        // Setup Toolbar
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        // Setup NavigationView
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.nav_home) {
+                // Already on home screen
+            } else if (id == R.id.nav_courses) {
+                Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_tests) {
+                // Navigate to tests activity (placeholder)
+            } else if (id == R.id.nav_forum) {
+                // Navigate to forum activity (placeholder)
+            } else if (id == R.id.nav_profile) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
 
         // Setup banner (using ViewPager2 for carousel)
@@ -55,13 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup buttons
         btnStartNow.setOnClickListener(v -> {
-            // Navigate to a signup or onboarding activity
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
 
         btnViewCourses.setOnClickListener(v -> {
-            // Navigate to courses list activity
             Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
             startActivity(intent);
         });
@@ -86,8 +113,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupBanner() {
-        // For simplicity, use a static banner image
-        // You can extend this to a ViewPager2 adapter for multiple images/videos
         vpBanner.setAdapter(new BannerAdapter(getBannerImages()));
     }
 
@@ -111,5 +136,14 @@ public class MainActivity extends AppCompatActivity {
         instructors.add(new Instructor("Giảng viên A", 5000, 10, R.drawable.instructor_image1));
         instructors.add(new Instructor("Giảng Viên B", 3000, 5, R.drawable.instructor_image2));
         return instructors;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
