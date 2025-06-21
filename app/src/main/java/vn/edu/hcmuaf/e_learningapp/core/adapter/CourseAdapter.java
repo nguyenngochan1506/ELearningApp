@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import vn.edu.hcmuaf.e_learningapp.core.base.CourseDetailActivity;
+import vn.edu.hcmuaf.e_learningapp.features.courses.CourseDetailActivity;
 import vn.edu.hcmuaf.e_learningapp.R;
 import vn.edu.hcmuaf.e_learningapp.core.data.Course;
 
