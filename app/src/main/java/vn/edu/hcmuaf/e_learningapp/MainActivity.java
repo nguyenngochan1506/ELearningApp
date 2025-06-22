@@ -17,6 +17,7 @@ import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.exam.ExamListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (id == R.id.nav_tests) {
                 // Navigate to tests activity (placeholder)
+                Intent intent = new Intent(MainActivity.this, ExamListActivity.class);
+                startActivity(intent);
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)
             } else if (id == R.id.nav_profile) {

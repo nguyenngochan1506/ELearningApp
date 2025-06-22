@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.e_learningapp.features.Quiz;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -10,105 +11,91 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.features.Quiz.Question;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-
-import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.core.data.Quiz;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private List<Quiz> questionList = new ArrayList<>();
-    private int currentQuestionIndex = 0;
-    private TextView questionText, questionIndicator, timerText;
+    private TextView timerText, questionIndicator, questionText;
     private RadioGroup optionsGroup;
     private EditText shortAnswerInput;
-    private Button previousButton, nextButton, uploadFileButton;
+    private Button uploadFileButton, previousButton, nextButton;
+    private LinearLayout quizLayout;
+    private List<Question> questions;
+    private int currentQuestionIndex = 0;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMillis = 5 * 60 * 1000; // 5 phút
-    private final String[] LETTERS = {"A", "B", "C", "D", "E", "F"};
+    private long timeLeftInMillis = 300000; // 5 minutes default
+    private String[] studentAnswers;
+    private String quizId; // To identify the quiz
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        String examId = getIntent().getStringExtra("exam_id");
-        Toast.makeText(this, "Làm bài kiểm tra: " + examId, Toast.LENGTH_SHORT).show();
-
-        questionText = findViewById(R.id.questionText);
-        questionIndicator = findViewById(R.id.questionIndicator);
+        // Initialize views
+        quizLayout = findViewById(R.id.quizLayout);
         timerText = findViewById(R.id.timerText);
+        questionIndicator = findViewById(R.id.questionIndicator);
+        questionText = findViewById(R.id.questionText);
         optionsGroup = findViewById(R.id.optionsGroup);
         shortAnswerInput = findViewById(R.id.shortAnswerInput);
         uploadFileButton = findViewById(R.id.uploadFileButton);
         previousButton = findViewById(R.id.previousButton);
         nextButton = findViewById(R.id.nextButton);
 
-        initSampleQuestions();
-        displayQuestion();
+        // Get quiz ID from intent
+        quizId = getIntent().getStringExtra("QUIZ_ID");
+
+        // Initialize data
+        initializeQuestions();
+        studentAnswers = new String[questions.size()];
+
+        // Start timer
         startTimer();
 
+        // Load first question
+        displayQuestion(currentQuestionIndex);
+
+        // Set button listeners
         previousButton.setOnClickListener(v -> {
             if (currentQuestionIndex > 0) {
+                saveAnswer();
                 currentQuestionIndex--;
-                displayQuestion();
+                displayQuestion(currentQuestionIndex);
             }
         });
 
         nextButton.setOnClickListener(v -> {
-            if (currentQuestionIndex < questionList.size() - 1) {
+            saveAnswer();
+            if (currentQuestionIndex < questions.size() - 1) {
                 currentQuestionIndex++;
-                displayQuestion();
+                displayQuestion(currentQuestionIndex);
             } else {
-                Toast.makeText(this, "Đã hoàn thành bài kiểm tra!", Toast.LENGTH_LONG).show();
-                countDownTimer.cancel();
+                submitQuiz();
             }
         });
 
         uploadFileButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Đã chọn file ", Toast.LENGTH_SHORT).show();
+            // Placeholder for file upload
+            Toast.makeText(this, "File upload not implemented yet", Toast.LENGTH_SHORT).show();
+            // Implement file picker logic here if needed
         });
     }
 
-    private void initSampleQuestions() {
-        questionList.add(new Quiz(1, "multiple-choice", "Mua bao nhiêu căn nhà",
-                new String[]{"Đếm được", "Đếm được", "Không đếm được", "Không đếm được"}, 0));
-        questionList.add(new Quiz(2, "multiple-choice", "Năm bao nhiêu show",
-                new String[]{"Đếm được", "Đếm được", "Không đếm được", "Không đếm được"}, 1));
-        questionList.add(new Quiz(3, "short-answer", "Bao nhiêu là hit",
-                null, -1));
-        questionList.add(new Quiz(4, "short-answer", "Có bao nhiêu fan",
-                null, -1));
-    }
-
-    private void displayQuestion() {
-        Quiz question = questionList.get(currentQuestionIndex);
-        questionIndicator.setText(String.format(Locale.getDefault(), "Câu %d/%d", currentQuestionIndex + 1, questionList.size()));
-        questionText.setText(question.question);
-
-        if ("multiple-choice".equals(question.type)) {
-            optionsGroup.setVisibility(View.VISIBLE);
-            shortAnswerInput.setVisibility(View.GONE);
-            uploadFileButton.setVisibility(View.GONE);
-            optionsGroup.removeAllViews();
-
-            for (int i = 0; i < question.options.length; i++) {
-                RadioButton option = new RadioButton(this);
-                String label = (i < LETTERS.length ? LETTERS[i] : "") + ". " + question.options[i];
-                option.setText(label);
-                option.setId(i);
-                optionsGroup.addView(option);
-            }
-        } else {
-            optionsGroup.setVisibility(View.GONE);
-            shortAnswerInput.setVisibility(View.VISIBLE);
-            uploadFileButton.setVisibility(View.VISIBLE);
-        }
+    private void initializeQuestions() {
+        questions = new ArrayList<>();
+        // Sample questions (replace with real data from server or database)
+        questions.add(new Question("What is the capital of France?", Question.QuestionType.MULTIPLE_CHOICE,
+                new String[]{"Paris", "London", "Berlin", "Madrid"}, null, false));
+        questions.add(new Question("Explain the concept of OOP.", Question.QuestionType.SHORT_ANSWER,
+                null, null, true));
+        questions.add(new Question("Which is a programming language?", Question.QuestionType.MULTIPLE_CHOICE,
+                new String[]{"HTML", "CSS", "Java", "XML"}, null, false));
     }
 
     private void startTimer() {
@@ -116,17 +103,97 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
-                int minutes = (int) (millisUntilFinished / 1000) / 60;
-                int seconds = (int) (millisUntilFinished / 1000) % 60;
-                String time = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-                timerText.setText(time);
+                updateTimerText();
             }
 
             @Override
             public void onFinish() {
                 timerText.setText("00:00");
-                Toast.makeText(QuizActivity.this, "Hết thời gian làm bài!", Toast.LENGTH_LONG).show();
+                submitQuiz();
             }
         }.start();
+    }
+
+    private void updateTimerText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+        timerText.setText(timeFormatted);
+    }
+
+    private void displayQuestion(int index) {
+        Question question = questions.get(index);
+        questionIndicator.setText(String.format("Question %d/%d", index + 1, questions.size()));
+        questionText.setText(question.getText());
+
+        // Reset views
+        optionsGroup.removeAllViews();
+        shortAnswerInput.setVisibility(View.GONE);
+        uploadFileButton.setVisibility(View.GONE);
+
+        if (question.getType() == Question.QuestionType.MULTIPLE_CHOICE) {
+            optionsGroup.setVisibility(View.VISIBLE);
+            for (String option : question.getOptions()) {
+                RadioButton radioButton = new RadioButton(this);
+                radioButton.setText(option);
+                radioButton.setTextSize(14);
+                radioButton.setPadding(8, 8, 8, 8);
+                optionsGroup.addView(radioButton);
+            }
+            // Restore previous answer
+            if (studentAnswers[index] != null) {
+                for (int i = 0; i < optionsGroup.getChildCount(); i++) {
+                    RadioButton rb = (RadioButton) optionsGroup.getChildAt(i);
+                    if (rb.getText().toString().equals(studentAnswers[index])) {
+                        rb.setChecked(true);
+                    }
+                }
+            }
+        } else if (question.getType() == Question.QuestionType.SHORT_ANSWER) {
+            shortAnswerInput.setVisibility(View.VISIBLE);
+            if (question.isFileUploadAllowed()) {
+                uploadFileButton.setVisibility(View.VISIBLE);
+            }
+            if (studentAnswers[index] != null) {
+                shortAnswerInput.setText(studentAnswers[index]);
+            }
+        }
+
+        // Update navigation buttons
+        previousButton.setEnabled(currentQuestionIndex > 0);
+        nextButton.setText(currentQuestionIndex == questions.size() - 1 ? "Submit" : "Next →");
+    }
+
+    private void saveAnswer() {
+        Question question = questions.get(currentQuestionIndex);
+        if (question.getType() == Question.QuestionType.MULTIPLE_CHOICE) {
+            int checkedId = optionsGroup.getCheckedRadioButtonId();
+            if (checkedId != -1) {
+                RadioButton selected = findViewById(checkedId);
+                studentAnswers[currentQuestionIndex] = selected.getText().toString();
+            }
+        } else if (question.getType() == Question.QuestionType.SHORT_ANSWER) {
+            studentAnswers[currentQuestionIndex] = shortAnswerInput.getText().toString();
+        }
+    }
+
+    private void submitQuiz() {
+        saveAnswer();
+        countDownTimer.cancel();
+        // Placeholder for submission logic
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("QUIZ_ID", quizId);
+        resultIntent.putExtra("ANSWERS", studentAnswers);
+        setResult(RESULT_OK, resultIntent);
+        Toast.makeText(this, "Quiz submitted!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }

@@ -1,8 +1,8 @@
-package vn.edu.hcmuaf.e_learningapp.core.data;
+package vn.edu.hcmuaf.e_learningapp.features.Quiz;
 
 public class Quiz {
     public int id;
-    public String type; // "multiple-choice" or "short-answer"
+    public String type;
     public String question;
     public String[] options;
     public int correctAnswer;

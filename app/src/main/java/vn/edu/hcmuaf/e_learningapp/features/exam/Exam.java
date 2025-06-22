@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.e_learningapp.core.data;
+package vn.edu.hcmuaf.e_learningapp.features.exam;
 
 public class Exam {
     public String title;
