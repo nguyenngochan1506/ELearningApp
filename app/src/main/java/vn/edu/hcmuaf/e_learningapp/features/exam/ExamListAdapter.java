@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,79 +14,40 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 import vn.edu.hcmuaf.e_learningapp.features.Quiz.QuizActivity;
 
 public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamViewHolder> {
     private List<Exam> examList;
 
-    public ExamListAdapter(List<vn.edu.hcmuaf.e_learningapp.features.exam.Exam> examList) {
+    public ExamListAdapter(List<Exam> examList) {
         this.examList = examList;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        String status = examList.get(position).status;
+        return "in_progress".equalsIgnoreCase(status) ? 0 : 1;
     }
 
     @NonNull
     @Override
     public ExamViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
         if (viewType == 0) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exam_card_in_progress, parent, false);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_exam_card_in_progress, parent, false);
+            return new InProgressExamViewHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_exam_card_upcoming, parent, false);
-        }
-        return new ExamViewHolder(view);
-    }
-
-
-    @Override
-    public int getItemViewType(int position) {
-        String status = examList.get(position).status;
-        if ("in_progress".equalsIgnoreCase(status)) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return examList.size();
-    }
-
-    public static class ExamViewHolder extends RecyclerView.ViewHolder {
-        TextView examTitle, courseName, examDuration, examTime, examParticipants, remainingTime, statusBadge;
-        Button actionButton, reminderButton;
-
-        public ExamViewHolder(@NonNull View itemView) {
-            super(itemView);
-            examTitle = itemView.findViewById(R.id.examTitle);
-            courseName = itemView.findViewById(R.id.examSubject);
-            examDuration = itemView.findViewById(R.id.examDuration);
-            examTime = itemView.findViewById(R.id.examTime);
-            examParticipants = itemView.findViewById(R.id.examParticipants);
-            // Try both IDs to handle both layouts
-            remainingTime = itemView.findViewById(R.id.remainingTime);
-            if (remainingTime == null) {
-                remainingTime = itemView.findViewById(R.id.countdownText);
-            }
-            statusBadge = itemView.findViewById(R.id.statusBadge);
-            actionButton = itemView.findViewById(R.id.actionButton);
-            reminderButton = itemView.findViewById(R.id.reminderButton);
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_exam_card_upcoming, parent, false);
+            return new UpcomingExamViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
         Exam exam = examList.get(position);
-
-        holder.actionButton.setOnClickListener(v -> {
-            if (exam.id != null) {
-                Intent intent = new Intent(v.getContext(), QuizActivity.class);
-                intent.putExtra("exam_id", exam.id);
-                v.getContext().startActivity(intent);
-            } else {
-                Toast.makeText(v.getContext(), "Invalid exam ID", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         holder.examTitle.setText(exam.title);
         holder.courseName.setText("Môn học: " + exam.course);
@@ -98,30 +58,68 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamVi
             holder.remainingTime.setText("⏳ " + exam.remainingTime);
         }
 
-        if ("in_progress".equalsIgnoreCase(exam.status)) {
-            if (holder.statusBadge != null) {
-                holder.statusBadge.setText("Đang diễn ra");
-                holder.statusBadge.setVisibility(View.VISIBLE);
-            }
-            holder.actionButton.setText("Vào làm bài →");
-            if (holder.reminderButton != null) {
-                holder.reminderButton.setVisibility(View.GONE);
-            }
-            holder.actionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4F46E5")));
-        } else {
-            if (holder.statusBadge != null) {
-                holder.statusBadge.setVisibility(View.GONE);
-            }
-            holder.actionButton.setText("Vào xem trước");
-            holder.actionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#E5E7EB")));
-
-            if (holder.reminderButton != null) {
-                holder.reminderButton.setVisibility(View.VISIBLE);
-                holder.reminderButton.setOnClickListener(v ->
-                        Toast.makeText(v.getContext(), "Đã đặt nhắc nhở tham gia", Toast.LENGTH_SHORT).show()
-                );
-            }
+        if (holder instanceof InProgressExamViewHolder) {
+            InProgressExamViewHolder inHolder = (InProgressExamViewHolder) holder;
+            inHolder.statusBadge.setText("Đang diễn ra");
+            inHolder.statusBadge.setVisibility(View.VISIBLE);
+            inHolder.actionButton.setText("Vào làm bài →");
+            inHolder.actionButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#4F46E5")));
+            inHolder.actionButton.setOnClickListener(v -> {
+                if (exam.id != null) {
+                    Intent intent = new Intent(v.getContext(), QuizActivity.class);
+                    intent.putExtra("QUIZ_ID", exam.id);
+                    v.getContext().startActivity(intent);
+                } else {
+                    Toast.makeText(v.getContext(), "Invalid exam ID", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else if (holder instanceof UpcomingExamViewHolder) {
+            UpcomingExamViewHolder upHolder = (UpcomingExamViewHolder) holder;
+            upHolder.statusBadge.setVisibility(View.GONE);
+            upHolder.reminderButton.setVisibility(View.VISIBLE);
+            upHolder.reminderButton.setOnClickListener(v ->
+                    Toast.makeText(v.getContext(), "Đã đặt nhắc nhở tham gia", Toast.LENGTH_SHORT).show()
+            );
         }
     }
 
+    @Override
+    public int getItemCount() {
+        return examList.size();
+    }
+
+    // Base ViewHolder
+    public static class ExamViewHolder extends RecyclerView.ViewHolder {
+        TextView examTitle, courseName, examDuration, examTime, examParticipants, remainingTime, statusBadge;
+
+        public ExamViewHolder(@NonNull View itemView) {
+            super(itemView);
+            examTitle = itemView.findViewById(R.id.examTitle);
+            courseName = itemView.findViewById(R.id.examSubject);
+            examDuration = itemView.findViewById(R.id.examDuration);
+            examTime = itemView.findViewById(R.id.examTime);
+            examParticipants = itemView.findViewById(R.id.examParticipants);
+            statusBadge = itemView.findViewById(R.id.statusBadge);
+        }
+    }
+
+    public static class InProgressExamViewHolder extends ExamViewHolder {
+        Button actionButton;
+
+        public InProgressExamViewHolder(@NonNull View itemView) {
+            super(itemView);
+            remainingTime = itemView.findViewById(R.id.remainingTime);
+            actionButton = itemView.findViewById(R.id.actionButton);
+        }
+    }
+
+    public static class UpcomingExamViewHolder extends ExamViewHolder {
+        Button reminderButton;
+
+        public UpcomingExamViewHolder(@NonNull View itemView) {
+            super(itemView);
+            remainingTime = itemView.findViewById(R.id.countdownText);
+            reminderButton = itemView.findViewById(R.id.reminderButton);
+        }
+    }
 }

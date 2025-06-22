@@ -2,7 +2,11 @@ package vn.edu.hcmuaf.e_learningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +24,8 @@ import vn.edu.hcmuaf.e_learningapp.features.chat.ChatOverviewActivity;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.exam.ExamListActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
     private List<Course> courseList;
+    private CourseAdapter courseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         rvCourses = findViewById(R.id.rvCourses);
+        progressBar = findViewById(R.id.progressBar);
 
         // Setup Toolbar
         setSupportActionBar(toolbar);
@@ -77,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup Courses RecyclerView
         rvCourses.setLayoutManager(new LinearLayoutManager(this));
-        courseList = CourseRepository.getCourses() != null ? CourseRepository.getCourses() : new ArrayList<>();
-        CourseAdapter courseAdapter = new CourseAdapter(courseList);
+        courseList = new ArrayList<>();
+        courseAdapter = new CourseAdapter(courseList);
         rvCourses.setAdapter(courseAdapter);
         rvCourses.setHasFixedSize(true);
 
@@ -86,9 +95,39 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabAddCourse = findViewById(R.id.fabAddCourse);
         fabAddCourse.setOnClickListener(v -> {
             // Add logic to add a new course (placeholder)
+            Toast.makeText(MainActivity.this, "Tính năng thêm khóa học chưa được triển khai", Toast.LENGTH_SHORT).show();
+        });
+        // Load courses from API
+        loadCourses();
+    }
+    private void loadCourses() {
+        progressBar.setVisibility(View.VISIBLE);
+        CourseRepository.getCourses(this, new CourseRepository.CourseCallback() {
+            @Override
+            public void onSuccess(CoursePageResponseDto data) {
+                progressBar.setVisibility(View.GONE);
+                courseList.clear();
+                for (CourseResponseDto dto : data.getCourses()) {
+                    Course c = new Course();
+                    c.setId(dto.getId());
+                    c.setTitle(dto.getName());
+                    c.setInstructor(dto.getTeacher().getFullName());
+                    c.setDescription(dto.getDescription());
+                    c.setCategory(dto.getCategory().getName());
+                    c.setImageUrl(dto.getThumbnail());
+                    c.setPrice("0");
+                    courseList.add(c);
+                }
+                courseAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
         });
     }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
