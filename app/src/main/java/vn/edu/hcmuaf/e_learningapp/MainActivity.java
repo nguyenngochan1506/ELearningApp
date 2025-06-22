@@ -27,6 +27,7 @@ import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.exam.ExamListActivity;
+import vn.edu.hcmuaf.e_learningapp.features.forum.ForumActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private List<Course> courseList;
     private CourseAdapter courseAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)
+                Intent intent = new Intent(MainActivity.this, ForumActivity.class);
+                startActivity(intent);
             } else if (id == R.id.nav_profile) {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
