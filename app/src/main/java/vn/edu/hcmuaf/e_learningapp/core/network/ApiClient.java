@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.e_learningapp.core.network;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -31,7 +32,11 @@ public class ApiClient {
         return retrofit;
     }
     public static Retrofit getClientWithoutToken() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
                 .addInterceptor(chain -> {
                     Request original = chain.request();
                     Request request = original.newBuilder()
@@ -40,6 +45,7 @@ public class ApiClient {
                     return chain.proceed(request);
                 })
                 .build();
+
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)

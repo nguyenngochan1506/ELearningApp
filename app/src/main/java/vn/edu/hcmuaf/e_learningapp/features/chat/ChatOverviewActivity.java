@@ -1,21 +1,16 @@
 package vn.edu.hcmuaf.e_learningapp.features.chat;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-
+import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
-
+import com.google.android.material.tabs.TabLayoutMediator;
 import vn.edu.hcmuaf.e_learningapp.R;
 
 public class ChatOverviewActivity extends AppCompatActivity {
-    private FrameLayout frameLayout;
-    private View chatLayout, courseLayout;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
     private ImageView btnBack;
 
     @Override
@@ -23,47 +18,28 @@ public class ChatOverviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        frameLayout = findViewById(R.id.frame_container);
-        chatLayout = findViewById(R.id.layout_chats);
-        courseLayout = findViewById(R.id.layout_courses);
-
+        // Khởi tạo view
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.view_pager);
         btnBack = findViewById(R.id.iv_back);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    chatLayout.setVisibility(View.VISIBLE);
-                    courseLayout.setVisibility(View.GONE);
-                } else if (tab.getPosition() == 1) {
-                    chatLayout.setVisibility(View.GONE);
-                    courseLayout.setVisibility(View.VISIBLE);
-                }
+        // Thiết lập ViewPager2 với ViewPagerAdapter
+        ViewPagerAdapter adapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+
+        // Liên kết TabLayout với ViewPager2
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText("Tất cả tin nhắn");
+            } else {
+                tab.setText("Khóa học");
             }
+        }).attach();
 
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-
-        });
-
+        // Nút back
+        btnBack.setOnClickListener(v -> finish());
 
         // Đặt tab mặc định là "Tất cả tin nhắn"
         tabLayout.getTabAt(0).select();
     }
-    public void openChat(View view) {
-        Intent intent = new Intent(this, ChatActivity.class);
-
-        startActivity(intent);
-    }
-
-
 }

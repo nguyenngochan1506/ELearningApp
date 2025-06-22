@@ -23,7 +23,7 @@
     <LinearLayout
         android:id="@+id/message_container"
         android:layout_width="367dp"
-        android:layout_height="98dp"
+        android:layout_height="80dp"
         android:background="@drawable/bubble_other"
         android:orientation="vertical"
         android:padding="12dp"
@@ -34,7 +34,6 @@
             android:id="@+id/tv_sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chị Phiến"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -43,7 +42,6 @@
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ối giồi ôi"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -51,7 +49,6 @@
             android:id="@+id/tv_timestamp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="15:03"
             android:textColor="#757575"
             android:textSize="11sp" />
 
