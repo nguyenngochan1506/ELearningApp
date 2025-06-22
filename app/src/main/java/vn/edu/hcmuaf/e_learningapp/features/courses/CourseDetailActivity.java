@@ -70,18 +70,19 @@ public class CourseDetailActivity extends AppCompatActivity {
         String courseTitle = intent.getStringExtra("course_title");
 
         // Find course in repository
-        for (Course c : CourseRepository.getCourses()) {
-            if (c.getTitle().equals(courseTitle)) {
-                this.course = c;
-                break;
-            }
-        }
+//        for (Course c : CourseRepository.getCourses()) {
+//            if (c.getTitle().equals(courseTitle)) {
+//                this.course = c;
+//                break;
+//            }
+//        }
+        this.course = new Course("123", "123", 123, "123", 123, "123");
 
         if (course != null) {
             tvCourseTitle.setText(course.getTitle());
             tvInstructor.setText("Giảng viên: " + course.getInstructor());
             progressBar.setProgress(course.getProgress());
-            imgCover.setImageResource(course.getImageResId());
+//            imgCover.setImageResource(course.getImageUrl());
         } else {
             Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
             finish();

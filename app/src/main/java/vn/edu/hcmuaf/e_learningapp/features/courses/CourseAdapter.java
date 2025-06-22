@@ -11,6 +11,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 
 import java.util.List;
@@ -35,7 +38,17 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Course course = courseList.get(position);
         holder.courseTitle.setText(course.getTitle());
         holder.courseInstructor.setText(course.getInstructor());
-        holder.courseImage.setImageResource(course.getImageResId());
+        holder.courseCategory.setText(course.getCategory());
+
+        //xu ly anh
+        if (course.getImageUrl() != null && !course.getImageUrl().isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(course.getImageUrl())
+                    .into(holder.courseImage);
+        }else{
+            holder.courseImage.setImageResource(R.drawable.ic_launcher_background);
+        }
+
         holder.btnViewDetails.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CourseDetailActivity.class);
             intent.putExtra("course_title", course.getTitle());
@@ -49,7 +62,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courseTitle, courseInstructor, progressText, tvPrice;
+        TextView courseTitle, courseInstructor, progressText, tvPrice, courseCategory;
         ProgressBar progressBar;
         ImageView courseImage;
         RatingBar ratingBar;
@@ -62,6 +75,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             progressBar = itemView.findViewById(R.id.progressBar);
             courseImage = itemView.findViewById(R.id.courseImage);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+            courseCategory = itemView.findViewById(R.id.courseCategory);
         }
     }
 }

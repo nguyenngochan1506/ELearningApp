@@ -10,10 +10,11 @@ public class Course {
     private String instructor;
     private String description;
     private int progress;
-    private int imageResId;
+    private String imageUrl;
     private float rating;
     private String price;
     private List<Module> modules;
+    private String category;
 
     @Override
     public String toString() {
@@ -23,43 +24,54 @@ public class Course {
                 ", instructor='" + instructor + '\'' +
                 ", description='" + description + '\'' +
                 ", progress=" + progress +
-                ", imageResId=" + imageResId +
+                ", imageUrl=" + imageUrl +
                 ", rating=" + rating +
                 ", price='" + price + '\'' +
                 ", modules=" + modules +
                 '}';
     }
 
-    public Course(String title, String instructor, int progress, int imageResId, float rating, String price) {
+    public Course(String title, String instructor, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageResId, float rating, String price) {
+    public Course() {
+    }
+
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.id = id;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageResId, float rating, String price, List<Module> modules) {
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price, List<Module> modules) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.modules = modules;
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -102,12 +114,12 @@ public class Course {
         this.progress = progress;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public float getRating() {

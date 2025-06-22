@@ -1,41 +1,45 @@
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
-import java.util.ArrayList;
-import java.util.List;
-import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
-import vn.edu.hcmuaf.e_learningapp.features.module.Module;
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
 
 public class CourseRepository {
+    public interface CourseCallback {
+        void onSuccess(CoursePageResponseDto data);
+        void onError(String errorMessage);
+    }
 
-    public static List<Course> getCourses() {
-        List<Course> courses = new ArrayList<>();
-//        courses.add(new Course("Lập trình nâng cao - DH22DTB", "Nguyễn Đức Công Song", 50, R.drawable.course_image1, 4.9f, "Miễn phí"));
-//        courses.add(new Course("Celebrating Cultures", "Giảng Viên A", 70, R.drawable.course_image2, 4.7f, "500,000 VNĐ"));
+    public static void getCourses(Context context, CourseCallback callback) {
+        CoursePageResponseDto courses = null;
+        //lấy jwt từ sharedpreference
+        SharedPreferences prefs = context.getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
 
-        Course c1 = new Course(1, "Lập trình nâng cao - DH22DTB", "Nguyễn Đức Công Song", "Lập trình Android cơ bản", 50, R.drawable.course_image1, 4.9f, "Miễn phí");
-        Course c2 = new Course(2, "Toán Cao Cấp", "Giảng Viên A", "Toán cao cấp", 70, R.drawable.course_image2, 4.7f, "500,000 VNĐ");
+        CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
+        Call<ResponseDto<CoursePageResponseDto>> call = api.getAllCourses();
+        call.enqueue(new Callback<ResponseDto<CoursePageResponseDto>>() {
+            @Override
+            public void onResponse(Call<ResponseDto<CoursePageResponseDto>> call, Response<ResponseDto<CoursePageResponseDto>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData());
+                } else {
+                    callback.onError("Lỗi khi lấy danh sách khóa học: " + response.message());
+                }
+            }
 
-        Module c1_m1  = new Module();
-        c1_m1.setId(1L);
-        c1_m1.setName("Chương 1");
-        c1_m1.setDescription("Mô tả chương 1");
-        c1_m1.setNumber(1);
-        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
-
-        Module c1_m2  = new Module();
-        c1_m2.setId(2L);
-        c1_m2.setName("Chương 2");
-        c1_m2.setDescription("Mô tả chương 2");
-        c1_m2.setNumber(2);
-        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
-
-        c1.setModules(List.of(c1_m1, c1_m2));
-
-
-        courses.add(c1);
-        courses.add(c2);
-
-        return courses;
+            @Override
+            public void onFailure(Call<ResponseDto<CoursePageResponseDto>> call, Throwable t) {
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
     }
 }
