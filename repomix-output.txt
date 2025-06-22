@@ -98,6 +98,7 @@ app/src/main/res/drawable-v24/ic_launcher_foreground.xml
 app/src/main/res/drawable/border_button.xml
 app/src/main/res/drawable/border.xml
 app/src/main/res/drawable/circle_background.xml
+app/src/main/res/drawable/course_background.xml
 app/src/main/res/drawable/ic_add.xml
 app/src/main/res/drawable/ic_business.xml
 app/src/main/res/drawable/ic_copy.xml
@@ -109,6 +110,7 @@ app/src/main/res/drawable/ic_excel.xml
 app/src/main/res/drawable/ic_language.xml
 app/src/main/res/drawable/ic_launcher_background.xml
 app/src/main/res/drawable/ic_programming.xml
+app/src/main/res/drawable/lesson_item_background_selector.xml
 app/src/main/res/drawable/lesson_item_background.xml
 app/src/main/res/drawable/module_card_background.xml
 app/src/main/res/drawable/rounded_button.xml
@@ -358,7 +360,7 @@ File: app/src/main/AndroidManifest.xml
         </activity>
 
         <activity android:name=".CourseListActivity" />
-        <activity android:name=".features.lesson.LessonActivity" />
+        <activity android:name=".features.lesson.LessonActivity" android:hardwareAccelerated="true" /> />
 
     </application>
 
@@ -1143,8 +1145,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.Serializable;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
+import vn.edu.hcmuaf.e_learningapp.features.module.Module;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -1179,6 +1184,13 @@ public class CourseDetailActivity extends AppCompatActivity {
         btnEnroll.setOnClickListener(v -> {
             Intent intent = new Intent(this, LessonActivity.class);
             intent.putExtra("course_id", course.getId());
+            if (course.getModules() != null && !course.getModules().isEmpty()) {
+                Module firstModule = course.getModules().get(0);
+                if (firstModule.getLessons() != null && !firstModule.getLessons().isEmpty()) {
+                    intent.putExtra("video_url", firstModule.getLessons().get(0).getVideoUrl());
+                    intent.putExtra("modules", (Serializable) course.getModules());
+                }
+            }
             startActivity(intent);
         });
     }
@@ -1351,14 +1363,14 @@ public class CourseRepository {
         c1_m1.setName("Chương 1");
         c1_m1.setDescription("Mô tả chương 1");
         c1_m1.setNumber(1);
-        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
 
         Module c1_m2  = new Module();
         c1_m2.setId(2L);
         c1_m2.setName("Chương 2");
         c1_m2.setDescription("Mô tả chương 2");
         c1_m2.setNumber(2);
-        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
 
         c1.setModules(List.of(c1_m1, c1_m2));
 
@@ -1764,48 +1776,210 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/LessonActivi
 package vn.edu.hcmuaf.e_learningapp.features.lesson;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
-import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.module.Module;
 import vn.edu.hcmuaf.e_learningapp.features.module.ModuleAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LessonActivity extends AppCompatActivity {
 
-    private RecyclerView rvModules;
+    private WebView videoPlayer;
+    private RecyclerView rvLessons;
+    private TextView tvEmpty;
+    private Button btnPrevious, btnNext;
+    private List<Module> moduleList;
+    private int currentModuleIndex = 0;
+    private int currentLessonIndex = 0;
+    private ModuleAdapter moduleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lesson);
 
-        // Initialize RecyclerView
-        rvModules = findViewById(R.id.rvLessons); // Sử dụng cùng ID nhưng hiển thị module
-        rvModules.setLayoutManager(new LinearLayoutManager(this));
+        // Khởi tạo các view
+        videoPlayer = findViewById(R.id.videoPlayer);
+        rvLessons = findViewById(R.id.rvLessons);
+        tvEmpty = findViewById(R.id.tvEmpty);
+        btnPrevious = findViewById(R.id.btnPrevious);
+        btnNext = findViewById(R.id.btnNext);
 
-        // Get course ID from intent
-        int courseId = getIntent().getIntExtra("course_id", -1);
+        // Cấu hình WebView
+        configureWebView();
 
-        // Find course in repository
-        Course course = null;
-        for (Course c : CourseRepository.getCourses()) {
-            if (c.getId() == courseId) {
-                course = c;
-                break;
+        // Lấy danh sách module
+        moduleList = (List<Module>) getIntent().getSerializableExtra("modules");
+        if (moduleList == null) {
+            moduleList = new ArrayList<>();
+        }
+        // Đảm bảo mỗi module có danh sách bài học
+        for (Module module : moduleList) {
+            if (module.getLessons() == null) {
+                module.setLessons(new ArrayList<>());
             }
         }
 
-        if (course != null) {
-            // Set adapter with modules
-            ModuleAdapter adapter = new ModuleAdapter(course.getModules());
-            rvModules.setAdapter(adapter);
-        } else {
-            // Handle course not found
-            android.widget.Toast.makeText(this, "Không tìm thấy khóa học", android.widget.Toast.LENGTH_SHORT).show();
-            finish();
+        // Debug: Kiểm tra dữ liệu
+        Log.d("LessonActivity", "Number of modules: " + moduleList.size());
+        for (int i = 0; i < moduleList.size(); i++) {
+            Log.d("LessonActivity", "Module " + i + ": " + moduleList.get(i).getName() + ", Lessons: " + moduleList.get(i).getLessons().size());
         }
+
+        // Kiểm tra và tải bài học đầu tiên
+        if (!moduleList.isEmpty() && !moduleList.get(0).getLessons().isEmpty()) {
+            loadInitialLesson();
+            setupRecyclerView();
+            updateNavigationButtons();
+        } else {
+            tvEmpty.setText("Không có module hoặc bài học nào");
+            tvEmpty.setVisibility(View.VISIBLE);
+            videoPlayer.setVisibility(View.GONE);
+            rvLessons.setVisibility(View.GONE);
+        }
+
+        // Xử lý sự kiện nút Previous
+        btnPrevious.setOnClickListener(v -> {
+            if (currentLessonIndex > 0) {
+                currentLessonIndex--;
+            } else if (currentModuleIndex > 0) {
+                currentModuleIndex--;
+                currentLessonIndex = moduleList.get(currentModuleIndex).getLessons().size() - 1;
+            }
+            loadCurrentLesson();
+            updateNavigationButtons();
+            updateAdapterSelection();
+        });
+
+        // Xử lý sự kiện nút Next
+        btnNext.setOnClickListener(v -> {
+            List<Lesson> currentLessons = moduleList.get(currentModuleIndex).getLessons();
+            if (currentLessonIndex < currentLessons.size() - 1) {
+                currentLessonIndex++;
+            } else if (currentModuleIndex < moduleList.size() - 1) {
+                currentModuleIndex++;
+                currentLessonIndex = 0;
+            }
+            loadCurrentLesson();
+            updateNavigationButtons();
+            updateAdapterSelection();
+        });
+    }
+
+    private void configureWebView() {
+        WebSettings webSettings = videoPlayer.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setMediaPlaybackRequiresUserGesture(false);
+        videoPlayer.setWebChromeClient(new WebChromeClient());
+    }
+
+    private void loadInitialLesson() {
+        loadLesson(0, 0);
+    }
+
+    private void loadCurrentLesson() {
+        loadLesson(currentModuleIndex, currentLessonIndex);
+    }
+
+    private void loadLesson(int moduleIndex, int lessonIndex) {
+        Module module = moduleList.get(moduleIndex);
+        if (module != null && !module.getLessons().isEmpty()) {
+            Lesson lesson = module.getLessons().get(lessonIndex);
+            String videoUrl = lesson.getVideoUrl();
+            String videoId = extractVideoId(videoUrl);
+            if (videoId != null) {
+                String embedUrl = "https://www.youtube.com/embed/" + videoId + "?rel=0&autoplay=1";
+                videoPlayer.loadUrl(embedUrl);
+                tvEmpty.setVisibility(View.GONE);
+                videoPlayer.setVisibility(View.VISIBLE);
+            } else {
+                tvEmpty.setText("Không thể tải video: " + videoUrl);
+                tvEmpty.setVisibility(View.VISIBLE);
+                videoPlayer.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private String extractVideoId(String url) {
+        if (url == null) return null;
+        String videoId = null;
+        if (url.contains("youtu.be/")) {
+            int startIndex = url.indexOf("youtu.be/") + 9;
+            int endIndex = url.indexOf("?", startIndex);
+            if (endIndex == -1) endIndex = url.length();
+            videoId = url.substring(startIndex, endIndex);
+        } else if (url.contains("v=")) {
+            int startIndex = url.indexOf("v=") + 2;
+            int endIndex = url.indexOf("&", startIndex);
+            if (endIndex == -1) endIndex = url.length();
+            videoId = url.substring(startIndex, endIndex);
+        }
+        return videoId;
+    }
+
+    private void setupRecyclerView() {
+        if (moduleList != null && !moduleList.isEmpty()) {
+            rvLessons.setLayoutManager(new LinearLayoutManager(this));
+            moduleAdapter = new ModuleAdapter(moduleList);
+            rvLessons.setAdapter(moduleAdapter);
+
+            // Xử lý khi chọn module hoặc lesson
+            moduleAdapter.setOnItemClickListener((modulePosition, lessonPosition, lesson) -> {
+                currentModuleIndex = modulePosition;
+                currentLessonIndex = lessonPosition;
+                loadCurrentLesson();
+                updateNavigationButtons();
+                updateAdapterSelection();
+            });
+            tvEmpty.setVisibility(View.GONE);
+        } else {
+            rvLessons.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateNavigationButtons() {
+        List<Lesson> currentLessons = moduleList.get(currentModuleIndex).getLessons();
+        btnPrevious.setEnabled(currentLessonIndex > 0 || currentModuleIndex > 0);
+        btnNext.setEnabled(currentLessonIndex < currentLessons.size() - 1 || currentModuleIndex < moduleList.size() - 1);
+    }
+
+    private void updateAdapterSelection() {
+        if (moduleAdapter != null) {
+            moduleAdapter.setSelectedPosition(currentModuleIndex, currentLessonIndex);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        videoPlayer.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        videoPlayer.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        videoPlayer.destroy();
     }
 }
 
@@ -1814,6 +1988,7 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/LessonAdapte
 ================
 package vn.edu.hcmuaf.e_learningapp.features.lesson;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1823,53 +1998,73 @@ import androidx.recyclerview.widget.RecyclerView;
 import vn.edu.hcmuaf.e_learningapp.R;
 import java.util.List;
 
-public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.LessonViewHolder> {
+public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.ViewHolder> {
 
     private List<Lesson> lessonList;
-    private OnLessonClickListener listener;
+    private OnItemClickListener onItemClickListener;
+    private int selectedPosition = -1; // Vị trí bài học được chọn
 
-    public interface OnLessonClickListener {
-        void onLessonClick(Lesson lesson);
+    public interface OnItemClickListener {
+        void onItemClick(int position, Lesson lesson);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
 
     public LessonAdapter(List<Lesson> lessonList) {
         this.lessonList = lessonList;
     }
 
-    public void setOnLessonClickListener(OnLessonClickListener listener) {
-        this.listener = listener;
-    }
-
     @NonNull
     @Override
-    public LessonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lesson, parent, false);
-        return new LessonViewHolder(view);
+        return new ViewHolder(view);
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull LessonViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Lesson lesson = lessonList.get(position);
-        holder.tvLessonNumber.setText(lesson.getNumber() + ".");
+        holder.tvLessonNumber.setText((position + 1) + ".");
         holder.tvLessonTitle.setText(lesson.getName());
         holder.tvLessonDuration.setText("Thời lượng: " + lesson.getDuration() + " phút");
 
+        // Đặt màu chữ mặc định khi không active
+        holder.tvLessonNumber.setTextColor(selectedPosition == position ? R.color.white : R.color.black);
+        holder.tvLessonTitle.setTextColor(selectedPosition == position ? R.color.white : R.color.black);
+        holder.tvLessonDuration.setTextColor(selectedPosition == position ? R.color.white : R.color.black);
+
+        holder.itemView.setSelected(selectedPosition == position);
+
         holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onLessonClick(lesson);
+            int previousPosition = selectedPosition;
+            selectedPosition = position;
+            notifyItemChanged(previousPosition);
+            notifyItemChanged(selectedPosition);
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(position, lesson);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return lessonList.size();
+        return lessonList != null ? lessonList.size() : 0;
     }
 
-    static class LessonViewHolder extends RecyclerView.ViewHolder {
+    public void setSelectedPosition(int position) {
+        int previousPosition = selectedPosition;
+        selectedPosition = position;
+        notifyItemChanged(previousPosition);
+        notifyItemChanged(selectedPosition);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvLessonNumber, tvLessonTitle, tvLessonDuration;
 
-        LessonViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             tvLessonNumber = itemView.findViewById(R.id.tvLessonNumber);
             tvLessonTitle = itemView.findViewById(R.id.tvLessonTitle);
@@ -1956,6 +2151,7 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/ModuleAdapte
 ================
 package vn.edu.hcmuaf.e_learningapp.features.module;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -1964,12 +2160,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleViewHolder> {
+public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ViewHolder> {
 
     private List<Module> moduleList;
+    private OnItemClickListener onItemClickListener;
+    private int selectedModulePosition = 0;
+    private int selectedLessonPosition = 0;
+
+    public interface OnItemClickListener {
+        void onItemClick(int modulePosition, int lessonPosition, Lesson lesson);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public ModuleAdapter(List<Module> moduleList) {
         this.moduleList = moduleList;
@@ -1977,33 +2187,58 @@ public class ModuleAdapter extends RecyclerView.Adapter<ModuleAdapter.ModuleView
 
     @NonNull
     @Override
-    public ModuleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_module, parent, false);
-        return new ModuleViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ModuleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Module module = moduleList.get(position);
         holder.tvModuleTitle.setText(module.getName());
         holder.tvModuleDesc.setText(module.getDescription());
 
-        // Show lessons
-        holder.rvLessons.setVisibility(View.VISIBLE);
-        holder.rvLessons.setLayoutManager(new LinearLayoutManager(holder.itemView.getContext()));
-        holder.rvLessons.setAdapter(new LessonAdapter(module.getLessons()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(holder.itemView.getContext());
+        holder.rvLessons.setLayoutManager(layoutManager);
+        List<Lesson> lessons = module.getLessons();
+        if (lessons == null) {
+            lessons = new ArrayList<>();
+        }
+        LessonAdapter lessonAdapter = new LessonAdapter(lessons);
+        holder.rvLessons.setAdapter(lessonAdapter);
+
+        holder.rvLessons.setMinimumHeight(100);
+
+        if (position == selectedModulePosition) {
+            lessonAdapter.setSelectedPosition(selectedLessonPosition);
+        }
+
+        lessonAdapter.setOnItemClickListener((lessonPosition, lesson) -> {
+            selectedModulePosition = position;
+            selectedLessonPosition = lessonPosition;
+            notifyDataSetChanged();
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(position, lessonPosition, lesson);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return moduleList.size();
+        return moduleList != null ? moduleList.size() : 0;
     }
 
-    static class ModuleViewHolder extends RecyclerView.ViewHolder {
+    public void setSelectedPosition(int modulePosition, int lessonPosition) {
+        selectedModulePosition = modulePosition;
+        selectedLessonPosition = lessonPosition;
+        notifyDataSetChanged();
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvModuleTitle, tvModuleDesc;
         RecyclerView rvLessons;
 
-        ModuleViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             tvModuleTitle = itemView.findViewById(R.id.tvModuleTitle);
             tvModuleDesc = itemView.findViewById(R.id.tvModuleDesc);
@@ -2338,32 +2573,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
-import vn.edu.hcmuaf.e_learningapp.features.instructors.Instructor;
-import vn.edu.hcmuaf.e_learningapp.features.instructors.InstructorAdapter;
-import vn.edu.hcmuaf.e_learningapp.features.categories.Category;
-import vn.edu.hcmuaf.e_learningapp.features.categories.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView rvCategories, rvFeaturedCourses, rvInstructors;
-    private ViewPager2 vpBanner;
-    private Button btnStartNow, btnViewCourses;
+    private RecyclerView rvCourses;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
     private List<Course> courseList;
-    private List<Category> categoryList;
-    private List<Instructor> instructorList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -2374,12 +2600,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-        vpBanner = findViewById(R.id.vpBanner);
-        btnStartNow = findViewById(R.id.btnStartNow);
-        btnViewCourses = findViewById(R.id.btnViewCourses);
-        rvCategories = findViewById(R.id.rvCategories);
-        rvFeaturedCourses = findViewById(R.id.rvFeaturedCourses);
-        rvInstructors = findViewById(R.id.rvInstructors);
+        rvCourses = findViewById(R.id.rvCourses);
 
         // Setup Toolbar
         setSupportActionBar(toolbar);
@@ -2409,63 +2630,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        // Setup banner (using ViewPager2 for carousel)
-        setupBanner();
-
-        // Setup buttons
-        btnStartNow.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
-            startActivity(intent);
-        });
-
-        btnViewCourses.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CourseListActivity.class);
-            startActivity(intent);
-        });
-
-        // Setup Categories RecyclerView
-        rvCategories.setLayoutManager(new GridLayoutManager(this, 2));
-        categoryList = getCategories();
-        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryList);
-        rvCategories.setAdapter(categoryAdapter);
-
-        // Setup Featured Courses RecyclerView
-        rvFeaturedCourses.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        courseList = CourseRepository.getCourses();
+        // Setup Courses RecyclerView
+        rvCourses.setLayoutManager(new LinearLayoutManager(this));
+        courseList = CourseRepository.getCourses() != null ? CourseRepository.getCourses() : new ArrayList<>();
         CourseAdapter courseAdapter = new CourseAdapter(courseList);
-        rvFeaturedCourses.setAdapter(courseAdapter);
+        rvCourses.setAdapter(courseAdapter);
+        rvCourses.setHasFixedSize(true);
 
-        // Setup Instructors RecyclerView
-        rvInstructors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        instructorList = getInstructors();
-        InstructorAdapter instructorAdapter = new InstructorAdapter(instructorList);
-        rvInstructors.setAdapter(instructorAdapter);
-    }
-
-    private void setupBanner() {
-        vpBanner.setAdapter(new BannerAdapter(getBannerImages()));
-    }
-
-    private List<Integer> getBannerImages() {
-        List<Integer> banners = new ArrayList<>();
-        banners.add(R.drawable.banner_image);
-        return banners;
-    }
-
-    private List<Category> getCategories() {
-        List<Category> categories = new ArrayList<>();
-        categories.add(new Category("Lập trình", R.drawable.ic_programming));
-        categories.add(new Category("Kinh doanh", R.drawable.ic_business));
-        categories.add(new Category("Thiết kế", R.drawable.ic_design));
-        categories.add(new Category("Ngôn ngữ", R.drawable.ic_language));
-        return categories;
-    }
-
-    private List<Instructor> getInstructors() {
-        List<Instructor> instructors = new ArrayList<>();
-        instructors.add(new Instructor("Giảng viên A", 5000, 10, R.drawable.instructor_image1));
-        instructors.add(new Instructor("Giảng Viên B", 3000, 5, R.drawable.instructor_image2));
-        return instructors;
+        // Setup FloatingActionButton
+        FloatingActionButton fabAddCourse = findViewById(R.id.fabAddCourse);
+        fabAddCourse.setOnClickListener(v -> {
+            // Add logic to add a new course (placeholder)
+        });
     }
 
     @Override
@@ -2679,6 +2855,18 @@ File: app/src/main/res/drawable/circle_background.xml
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <solid android:color="@android:color/white"/>
+</shape>
+
+================
+File: app/src/main/res/drawable/course_background.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="#2196F3"
+        android:endColor="#4CAF50"
+        android:angle="45"/>
+    <corners android:radius="12dp"/>
 </shape>
 
 ================
@@ -3025,6 +3213,26 @@ File: app/src/main/res/drawable/ic_programming.xml
 </vector>
 
 ================
+File: app/src/main/res/drawable/lesson_item_background_selector.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#0288D1" /> <!-- Màu active mới: xanh dương -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" /> <!-- Nền trắng -->
+            <stroke android:width="1dp" android:color="#B0BEC5" /> <!-- Viền xám nhạt -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</selector>
+
+================
 File: app/src/main/res/drawable/lesson_item_background.xml
 ================
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
@@ -3165,14 +3373,43 @@ File: app/src/main/res/layout/activity_lesson.xml
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF">
 
     <!-- Video Player -->
     <WebView
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="#000000" />
+        android:background="#0288D1" />
+
+    <!-- Navigation Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/btnPrevious"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bài học trước"
+            android:enabled="false"
+            android:backgroundTint="#0288D1"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bài học tiếp theo"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#0288D1"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
     <!-- Module List -->
     <androidx.recyclerview.widget.RecyclerView
@@ -3189,8 +3426,8 @@ File: app/src/main/res/layout/activity_lesson.xml
         android:text="Không có module nào"
         android:visibility="gone"
         android:gravity="center"
-        android:layout_marginTop="16dp" />
-
+        android:layout_marginTop="16dp"
+        android:textColor="#B0BEC5" />
 </LinearLayout>
 
 ================
@@ -3205,12 +3442,10 @@ File: app/src/main/res/layout/activity_main.xml
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <!-- CoordinatorLayout to manage Toolbar and scrolling content -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- AppBarLayout for fixed Toolbar -->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
@@ -3221,299 +3456,62 @@ File: app/src/main/res/layout/activity_main.xml
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="#1546A0"
+                android:background="#212121"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- NestedScrollView for scrolling content -->
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#F5F5F5"
+            android:background="#212121"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- Banner Section -->
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/vpBanner"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginTop="8dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/tvBannerTitle"
+                    android:id="@+id/tvWeekTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Học mọi lúc, mọi nơi với E-Learning"
+                    android:text="Tuần này"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="#000000"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/vpBanner"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
-
-                <TextView
-                    android:id="@+id/tvBannerSubtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="5000+ khóa học từ chuyên gia"
-                    android:textSize="16sp"
-                    android:textColor="#666666"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvBannerTitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="4dp" />
-
-                <Button
-                    android:id="@+id/btnStartNow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bắt đầu ngay"
-                    android:backgroundTint="#FF6200EE"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintTop_toBottomOf="@id/tvBannerSubtitle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp" />
+                    android:layout_marginBottom="8dp" />
 
-                <Button
-                    android:id="@+id/btnViewCourses"
+                <TextView
+                    android:id="@+id/tvViewAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xem khóa học"
-                    android:backgroundTint="#00000000"
-                    android:textColor="#FF6200EE"
-                    android:background="@drawable/border_button"
-                    app:layout_constraintTop_toBottomOf="@id/tvBannerSubtitle"
-                    app:layout_constraintStart_toEndOf="@id/btnStartNow"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginStart="16dp" />
-
-                <!-- Learning Path Section -->
-                <TextView
-                    android:id="@+id/tvLearningPath"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Lộ trình học tập"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/btnStartNow"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp" />
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvLearningPath"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardCornerRadius="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvLearningPath"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Khóa học đang học"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <ProgressBar
-                            android:id="@+id/progressBarLearning"
-                            style="?android:attr/progressBarStyleHorizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:progress="50" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="50% hoàn thành"
-                            android:layout_marginTop="4dp" />
-
-                        <Button
-                            android:id="@+id/btnContinueLearning"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Tiếp tục học"
-                            android:layout_marginTop="8dp" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Categories Section -->
-                <TextView
-                    android:id="@+id/tvCategories"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Danh mục phổ biến"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/cvLearningPath"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp" />
+                    android:text="Xem danh sách việc cần làm"
+                    android:textSize="16sp"
+                    android:textColor="#BB86FC"
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="16dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCategories"
+                    android:id="@+id/rvCourses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvCategories"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
+                    android:layout_marginBottom="16dp" />
 
-                <!-- Featured Courses Section -->
-                <TextView
-                    android:id="@+id/tvFeaturedCourses"
-                    android:layout_width="match_parent"
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddCourse"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Khóa học dành cho bạn"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/rvCategories"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp" />
+                    android:layout_gravity="end"
+                    android:src="@android:drawable/ic_input_add"
+                    android:backgroundTint="#BB86FC"
+                    android:layout_margin="16dp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvFeaturedCourses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvFeaturedCourses"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
-
-                <!-- Instructors Section -->
-                <TextView
-                    android:id="@+id/tvInstructors"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gặp gỡ giảng viên của chúng tôi"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/rvFeaturedCourses"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvInstructors"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/tvInstructors"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="8dp" />
-
-                <!-- Stats Section -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cvStats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#E8EAF6"
-                    app:cardCornerRadius="8dp"
-                    android:layout_marginHorizontal="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/rvInstructors"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="10,000+"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Học viên"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="2,000+"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Giờ học"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="100%"
-                                android:textSize="18sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Hài lòng"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -4341,24 +4339,24 @@ File: app/src/main/res/layout/item_course.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/course_background">
 
         <ImageView
             android:id="@+id/courseImage"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/course_image1" />
 
@@ -4367,73 +4365,72 @@ File: app/src/main/res/layout/item_course.xml
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Course Title"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/courseInstructor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Instructor Name"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            android:textColor="#BB86FC"
+            android:layout_marginTop="4dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="100" />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="4dp" />
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:numStars="5"
             android:stepSize="0.1"
-            android:layout_marginTop="4dp"
-            style="?android:attr/ratingBarStyleSmall" />
+            android:isIndicator="true" />
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
-            android:textSize="14sp"
-            android:textColor="#FF6200EE"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="4dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:id="@+id/progressText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0%"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnViewDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xem chi tiết"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
+            android:layout_gravity="end"
+            android:visibility="visible"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#BB86FC"
+            android:textColor="#FFFFFF" />
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⭐ 0.0 • 0 học viên"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="4dp" />
 
-    <TextView
-        android:id="@+id/tvRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
 
 ================
@@ -4578,7 +4575,7 @@ File: app/src/main/res/layout/item_lesson.xml
     android:orientation="horizontal"
     android:padding="12dp"
     android:layout_marginBottom="4dp"
-    android:background="@drawable/lesson_item_background">
+    android:background="@drawable/lesson_item_background_selector">
 
     <TextView
         android:id="@+id/tvLessonNumber"
@@ -4587,7 +4584,7 @@ File: app/src/main/res/layout/item_lesson.xml
         android:text="1."
         android:textStyle="bold"
         android:layout_marginEnd="8dp"
-        android:textColor="#6200EE"/>
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -4601,7 +4598,7 @@ File: app/src/main/res/layout/item_lesson.xml
             android:layout_height="wrap_content"
             android:text="Tên bài học"
             android:textSize="15sp"
-            android:textColor="#212121" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tvLessonDuration"
@@ -4609,46 +4606,44 @@ File: app/src/main/res/layout/item_lesson.xml
             android:layout_height="wrap_content"
             android:text="Thời lượng: 10 phút"
             android:textSize="13sp"
-            android:textColor="#888888" />
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>
 
 ================
 File: app/src/main/res/layout/item_module.xml
 ================
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:background="@drawable/module_card_background"
-    android:layout_marginBottom="12dp">
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/tvModuleTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chương 1: Cơ bản"
+        android:text="Tên module"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="#333333" />
+        android:textColor="#212121" />
 
     <TextView
         android:id="@+id/tvModuleDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mô tả chương học"
+        android:text="Mô tả module"
         android:textSize="14sp"
-        android:textColor="#777777"
-        android:layout_marginTop="4dp" />
+        android:textColor="#B0BEC5" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvLessons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="8dp"/>
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="8dp" />
 </LinearLayout>
 
 ================

@@ -1,7 +1,11 @@
 package vn.edu.hcmuaf.e_learningapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +15,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Optional;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.user.UserApi;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.AuthResponse;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.LoginRequest;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
     private Button loginButton;
     private TextView signupText, forgotPasswordText;
-    private ImageButton returnButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -29,8 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
         forgotPasswordText = findViewById(R.id.forgotPassword);
-        returnButton = findViewById(R.id.returnIButton);//nút quay lại trang chủ
-      
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,14 +69,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //sự kiện click nút quay lại -> trang chủ
-        returnButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void handleLogin() {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(LoginActivity.this, "Không có kết nối mạng", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
@@ -71,15 +83,43 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Gọi API đăng nhập
+        UserApi userApi = ApiClient.getClientWithoutToken().create(UserApi.class);
+        LoginRequest request = new LoginRequest(email, password, "ANDROID", "device_token");
+        userApi.login(request).enqueue(new Callback<ResponseDto<AuthResponse>>() {
+            @Override
+            public void onResponse(Call<ResponseDto<AuthResponse>> call, Response<ResponseDto<AuthResponse>> response) {
+                ResponseDto<AuthResponse> authResponse = response.body();
+                if(authResponse == null){
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        if (email.equals("123") && password.equals("123")) {
-            Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                AuthResponse data = authResponse.getData();
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(LoginActivity.this, "Thông tin đăng nhập không đúng!", Toast.LENGTH_SHORT).show();
-        }
+//                 Lưu token vào SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("accessToken", data.getAccessToken());
+                editor.putString("refreshToken", data.getRefreshToken());
+                editor.putLong("userId", data.getUserId());
+                editor.apply();
+                Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+//                 Chuyển sang MainActivity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDto<AuthResponse>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }
