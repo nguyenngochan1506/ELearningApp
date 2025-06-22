@@ -31,7 +31,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         // Tạm thời set "me" là tin nhắn của bản thân
-        if (messages.get(position).getSenderId().equals(currentUserId)) {
+        if (messages.get(position).isMe()) {
             return VIEW_TYPE_SELF;
         } else {
             return VIEW_TYPE_OTHER;
@@ -54,12 +54,12 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Chat message = messages.get(position);
         if (holder instanceof SelfMessageViewHolder) {
-            ((SelfMessageViewHolder) holder).tvMessage.setText(message.getContent());
-            ((SelfMessageViewHolder) holder).tvTimestamp.setText(message.getTime());
+            ((SelfMessageViewHolder) holder).tvMessage.setText(message.getMessage());
+            ((SelfMessageViewHolder) holder).tvTimestamp.setText(message.getCreatedAt());
         } else if (holder instanceof OtherMessageViewHolder) {
-            ((OtherMessageViewHolder) holder).tvSender.setText(message.getSenderName());
-            ((OtherMessageViewHolder) holder).tvMessage.setText(message.getContent());
-            ((OtherMessageViewHolder) holder).tvTimestamp.setText(message.getTime());
+            ((OtherMessageViewHolder) holder).tvSender.setText(message.getSender().getFullName());
+            ((OtherMessageViewHolder) holder).tvMessage.setText(message.getMessage());
+            ((OtherMessageViewHolder) holder).tvTimestamp.setText(message.getCreatedAt());
         }
     }
 
