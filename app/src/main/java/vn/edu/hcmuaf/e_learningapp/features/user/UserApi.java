@@ -7,6 +7,7 @@ import retrofit2.http.POST;
 import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.user.dtos.AuthResponse;
 import vn.edu.hcmuaf.e_learningapp.features.user.dtos.LoginRequest;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.RegisterRequest;
 import vn.edu.hcmuaf.e_learningapp.features.user.dtos.UserResponse;
 
 public interface UserApi {
@@ -14,4 +15,7 @@ public interface UserApi {
     Call<ResponseDto<AuthResponse>> login(@Body LoginRequest request);
     @GET("auth/me")
     Call<ResponseDto<UserResponse>> getProfile();
+    @POST("auth/signup")
+    Call<ResponseDto<Integer>> register(@Body RegisterRequest request);
+
 }
