@@ -2,4 +2,9 @@
     <string name="app_name">E-Learning App</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="attach">Đính kèm</string>
+    <string name="send">Gửi</string>
+    <string name="avatar">Ảnh đại diện</string>
+    <string name="message_hint">Nhập tin nhắn...</string>
+
 </resources>
