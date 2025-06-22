@@ -71,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
     private void handleLogin() {
         if (!isNetworkAvailable()) {
             Toast.makeText(LoginActivity.this, "Không có kết nối mạng", Toast.LENGTH_SHORT).show();

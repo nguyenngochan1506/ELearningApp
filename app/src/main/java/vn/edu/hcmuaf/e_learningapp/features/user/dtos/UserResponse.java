@@ -10,13 +10,14 @@ public class UserResponse {
     private Long id;
     private String fullName;
     private Gender gender;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String phoneNumber;
     private String email;
     private UserStatus status;
-    private LocalDateTime lastLogin;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String avatar;
+    private String lastLogin;
+    private String createdAt;
+    private String updatedAt;
 
     public Long getId() {
         return id;
@@ -34,6 +35,14 @@ public class UserResponse {
         this.fullName = fullName;
     }
 
+    public String getavatar() {
+        return avatar;
+    }
+
+    public void setavatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public Gender getGender() {
         return gender;
     }
@@ -42,11 +51,11 @@ public class UserResponse {
         this.gender = gender;
     }
 
-    public LocalDate getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -74,27 +83,27 @@ public class UserResponse {
         this.status = status;
     }
 
-    public LocalDateTime getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(LocalDateTime lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public String getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
 }
