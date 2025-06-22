@@ -672,14 +672,14 @@ public class Course {
     private String instructor;
     private String rating;
     private int studentCount;
-    private int imageUrl;
+    private int imageResId;
 
-    public Course(String title, String instructor, String rating, int studentCount, int imageUrl) {
+    public Course(String title, String instructor, String rating, int studentCount, int imageResId) {
         this.title = title;
         this.instructor = instructor;
         this.rating = rating;
         this.studentCount = studentCount;
-        this.imageUrl = imageUrl;
+        this.imageResId = imageResId;
     }
 
     public String getTitle() {
@@ -715,11 +715,11 @@ public class Course {
     }
 
     public int getImageResId() {
-        return imageUrl;
+        return imageResId;
     }
 
-    public void setImageResId(int imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageResId(int imageResId) {
+        this.imageResId = imageResId;
     }
 }
 
@@ -797,6 +797,10 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/CourseListActivity.java
 package vn.edu.hcmuaf.e_learningapp;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -805,14 +809,16 @@ import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private CourseAdapter adapter;
-    private CoursePageResponseDto courses;
     private Toolbar toolBar;
 
     @Override
@@ -830,14 +836,42 @@ public class CourseListActivity extends AppCompatActivity {
 
         // Initialize RecyclerView
         recyclerView = findViewById(R.id.recyclerView);  // Đúng ID theo XML
+        progressBar = findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load courses from repository
-        courses = CourseRepository.getCourses();
-        adapter = new CourseAdapter(courses);
-        recyclerView.setAdapter(adapter);
+        // Load courses from API
+        loadCourses();
     }
+    private void loadCourses(){
+        CourseRepository.getCourses(this, new CourseRepository.CourseCallback() {
+            @Override
+            public void onSuccess(CoursePageResponseDto data) {
+                // Chuyển đổi dữ liệu từ DTO sang model Course
+                List<Course> courseList = new ArrayList<>();
+                for (CourseResponseDto dto : data.getCourses()) {
+                    Course c = new Course();
+                    c.setId(dto.getId());
+                    c.setTitle(dto.getName());
+                    c.setInstructor(dto.getTeacher().getFullName());
+                    c.setDescription(dto.getDescription());
+                    c.setCategory(dto.getCategory().getName());
+                    c.setImageUrl(dto.getThumbnail());
+                    c.setPrice("0");
+                    courseList.add(c);
+                }
+                // Cập nhật adapter
+                adapter = new CourseAdapter(courseList);
+                recyclerView.setAdapter(adapter);
+            }
 
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(CourseListActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
     @Override
     public boolean onSupportNavigateUp() {
         finish(); // Đóng activity khi bấm back trên toolbar
@@ -1199,10 +1233,11 @@ public class Course {
     private String instructor;
     private String description;
     private int progress;
-    private int imageUrl;
+    private String imageUrl;
     private float rating;
     private String price;
     private List<Module> modules;
+    private String category;
 
     @Override
     public String toString() {
@@ -1219,36 +1254,47 @@ public class Course {
                 '}';
     }
 
-    public Course(String title, String instructor, int progress, int imageUrl, float rating, String price) {
+    public Course(String title, String instructor, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.progress = progress;
-        this.imageUrl = imageUrl;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageUrl, float rating, String price) {
+    public Course() {
+    }
+
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageUrl = imageUrl;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.id = id;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageUrl, float rating, String price, List<Module> modules) {
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price, List<Module> modules) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageUrl = imageUrl;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.modules = modules;
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -1291,11 +1337,11 @@ public class Course {
         this.progress = progress;
     }
 
-    public int getImageResId() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageResId(int imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -1340,6 +1386,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 
 import java.util.List;
@@ -1364,10 +1413,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Course course = courseList.get(position);
         holder.courseTitle.setText(course.getTitle());
         holder.courseInstructor.setText(course.getInstructor());
-        holder.courseImage.setImageResource(course.getImageResId());
+        holder.courseCategory.setText(course.getCategory());
+
+        //xu ly anh
+        if (course.getImageUrl() != null && !course.getImageUrl().isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(course.getImageUrl())
+                    .into(holder.courseImage);
+        }else{
+            holder.courseImage.setImageResource(R.drawable.ic_launcher_background);
+        }
+
         holder.btnViewDetails.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CourseDetailActivity.class);
             intent.putExtra("course_title", course.getTitle());
+            intent.putExtra("course_id", (long) course.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
@@ -1378,7 +1438,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courseTitle, courseInstructor, progressText, tvPrice;
+        TextView courseTitle, courseInstructor, progressText, tvPrice, courseCategory;
         ProgressBar progressBar;
         ImageView courseImage;
         RatingBar ratingBar;
@@ -1391,6 +1451,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             progressBar = itemView.findViewById(R.id.progressBar);
             courseImage = itemView.findViewById(R.id.courseImage);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+            courseCategory = itemView.findViewById(R.id.courseCategory);
         }
     }
 }
@@ -1403,14 +1464,15 @@ package vn.edu.hcmuaf.e_learningapp.features.courses;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 
 public interface CourseApi {
     @GET("v1/courses")
-    Call<CoursePageResponseDto> getAllCourses();
+    Call<ResponseDto<CoursePageResponseDto>> getAllCourses();
     @GET("v1/courses/{id}")
-    Call<CourseResponseDto> getCourseById(@Path("id") Long id);
+    Call<ResponseDto<CourseResponseDto>> getCourseById(@Path("id") Long id);
 }
 
 ================
@@ -1419,6 +1481,7 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseDetai
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -1429,14 +1492,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.module.Module;
+import vn.edu.hcmuaf.e_learningapp.features.module.dto.ModuleResponseDto;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -1485,26 +1561,81 @@ public class CourseDetailActivity extends AppCompatActivity {
     private void loadCourseData() {
         // Get course title from Intent
         Intent intent = getIntent();
-        String courseTitle = intent.getStringExtra("course_title");
+        Long courseId = intent.getLongExtra("course_id", 0);
 
-        // Find course in repository
-        for (Course c : CourseRepository.getCourses()) {
-            if (c.getTitle().equals(courseTitle)) {
-                this.course = c;
-                break;
+        //lay jwt tu sharedrefre
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
+        CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
+        Call<ResponseDto<CourseResponseDto>> call = api.getCourseById(courseId);
+        call.enqueue(new Callback<ResponseDto<CourseResponseDto>>() {
+
+            @Override
+            public void onResponse(Call<ResponseDto<CourseResponseDto>> call, Response<ResponseDto<CourseResponseDto>> response) {
+                if(!response.isSuccessful() || response.code() !=200){
+                    Toast.makeText(CourseDetailActivity.this, "Lỗi khi lấy thông tin khóa học", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+                CourseResponseDto dto = response.body().getData();
+
+                Course c = new Course();
+                c.setId(dto.getId());
+                c.setTitle(dto.getName());
+                c.setInstructor(dto.getTeacher().getFullName());
+                c.setDescription(dto.getDescription());
+                c.setImageUrl(dto.getThumbnail());
+                c.setPrice("0");
+                c.setCategory(dto.getCategory().getName());
+
+                List<Module> modules = new ArrayList<>();
+                for(ModuleResponseDto m : dto.getModules()){
+                    Module module = new Module();
+                    module.setId(m.getId());
+                    module.setName(m.getName());
+                    module.setDescription(m.getDescription());
+                    module.setNumber(m.getNumber());
+                    List<Lesson> lessons = new ArrayList<>();
+                    for(LessonResponseDto l : m.getLessons()){
+                        Lesson lesson = new Lesson();
+                        lesson.setId(Math.toIntExact(l.getId()));
+                        lesson.setName(l.getName());
+                        lesson.setContent(l.getContent());
+                        lesson.setNumber(l.getNumber());
+                        lesson.setDuration(l.getDuration());
+                        lesson.setVideoUrl(l.getVideoUrl());
+                        lesson.setFiles(l.getFiles());
+                        lessons.add(lesson);
+                    }
+                    module.setLessons(lessons);
+                    modules.add(module);
+                }
+
+                c.setModules(modules);
+                course = c;
+                tvCourseTitle.setText(course.getTitle());
+                tvInstructor.setText("Giảng viên: " + course.getInstructor());
+                progressBar.setProgress(course.getProgress());
+                Glide.with(CourseDetailActivity.this)
+                        .load(course.getImageUrl())
+                        .into(imgCover);
+
             }
-        }
 
-        if (course != null) {
-            tvCourseTitle.setText(course.getTitle());
-            tvInstructor.setText("Giảng viên: " + course.getInstructor());
-            progressBar.setProgress(course.getProgress());
-            imgCover.setImageResource(course.getImageResId());
-        } else {
-            Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+            @Override
+            public void onFailure(Call<ResponseDto<CourseResponseDto>> call, Throwable throwable) {
 
+            }
+        });
+//        if (course != null) {
+//            tvCourseTitle.setText(course.getTitle());
+//            tvInstructor.setText("Giảng viên: " + course.getInstructor());
+//            progressBar.setProgress(course.getProgress());
+////            imgCover.setImageResource(course.getImageUrl());
+//        } else {
+//            Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
     }
 
     private void setupTabs() {
@@ -1594,6 +1725,7 @@ import android.content.SharedPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
 import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
 import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
 
@@ -1610,19 +1742,19 @@ public class CourseRepository {
         String accessToken = prefs.getString("accessToken", null);
 
         CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
-        Call<CoursePageResponseDto> call = api.getAllCourses();
-        call.enqueue(new Callback<CoursePageResponseDto>() {
+        Call<ResponseDto<CoursePageResponseDto>> call = api.getAllCourses();
+        call.enqueue(new Callback<ResponseDto<CoursePageResponseDto>>() {
             @Override
-            public void onResponse(Call<CoursePageResponseDto> call, Response<CoursePageResponseDto> response) {
+            public void onResponse(Call<ResponseDto<CoursePageResponseDto>> call, Response<ResponseDto<CoursePageResponseDto>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body());
+                    callback.onSuccess(response.body().getData());
                 } else {
                     callback.onError("Lỗi khi lấy danh sách khóa học: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<CoursePageResponseDto> call, Throwable t) {
+            public void onFailure(Call<ResponseDto<CoursePageResponseDto>> call, Throwable t) {
                 callback.onError("Lỗi kết nối: " + t.getMessage());
             }
         });
@@ -1666,21 +1798,21 @@ import vn.edu.hcmuaf.e_learningapp.features.module.dto.ModuleResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.user.dtos.UserResponse;
 
 public class CourseResponseDto {
-    private Long id;
+    private int id;
     private String name;
     private String description;
     private Double price;
     private String thumbnail;
     private CategoryResponseDto category;
     private UserResponse teacher;
-    private Boolean isPublished;
+    private boolean isPublished;
     private List<ModuleResponseDto> modules;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -1732,11 +1864,11 @@ public class CourseResponseDto {
         this.teacher = teacher;
     }
 
-    public Boolean getPublished() {
+    public boolean getPublished() {
         return isPublished;
     }
 
-    public void setPublished(Boolean published) {
+    public void setPublished(boolean published) {
         isPublished = published;
     }
 
@@ -2211,6 +2343,9 @@ public class Lesson implements Serializable {
         this.videoUrl = videoUrl;
     }
 
+    public Lesson() {
+    }
+
     public int getId() {
         return id;
     }
@@ -2591,12 +2726,14 @@ package vn.edu.hcmuaf.e_learningapp.features.module.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
+
 public class ModuleResponseDto implements Serializable {
     private Long id;
     private String name;
     private String description;
     private Integer number;
-    private List<ModuleResponseDto> lessons;
+    private List<LessonResponseDto> lessons;
 
     public Long getId() {
         return id;
@@ -2630,11 +2767,11 @@ public class ModuleResponseDto implements Serializable {
         this.number = number;
     }
 
-    public List<ModuleResponseDto> getLessons() {
+    public List<LessonResponseDto> getLessons() {
         return lessons;
     }
 
-    public void setLessons(List<ModuleResponseDto> lessons) {
+    public void setLessons(List<LessonResponseDto> lessons) {
         this.lessons = lessons;
     }
 }
@@ -3397,7 +3534,11 @@ package vn.edu.hcmuaf.e_learningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -3412,6 +3553,8 @@ import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -3419,7 +3562,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
     private List<Course> courseList;
+    private CourseAdapter courseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -3431,6 +3576,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         rvCourses = findViewById(R.id.rvCourses);
+        progressBar = findViewById(R.id.progressBar);
 
         // Setup Toolbar
         setSupportActionBar(toolbar);
@@ -3462,8 +3608,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup Courses RecyclerView
         rvCourses.setLayoutManager(new LinearLayoutManager(this));
-        courseList = CourseRepository.getCourses() != null ? CourseRepository.getCourses() : new ArrayList<>();
-        CourseAdapter courseAdapter = new CourseAdapter(courseList);
+        courseList = new ArrayList<>();
+        courseAdapter = new CourseAdapter(courseList);
         rvCourses.setAdapter(courseAdapter);
         rvCourses.setHasFixedSize(true);
 
@@ -3471,9 +3617,39 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabAddCourse = findViewById(R.id.fabAddCourse);
         fabAddCourse.setOnClickListener(v -> {
             // Add logic to add a new course (placeholder)
+            Toast.makeText(MainActivity.this, "Tính năng thêm khóa học chưa được triển khai", Toast.LENGTH_SHORT).show();
+        });
+        // Load courses from API
+        loadCourses();
+    }
+    private void loadCourses() {
+        progressBar.setVisibility(View.VISIBLE);
+        CourseRepository.getCourses(this, new CourseRepository.CourseCallback() {
+            @Override
+            public void onSuccess(CoursePageResponseDto data) {
+                progressBar.setVisibility(View.GONE);
+                courseList.clear();
+                for (CourseResponseDto dto : data.getCourses()) {
+                    Course c = new Course();
+                    c.setId(dto.getId());
+                    c.setTitle(dto.getName());
+                    c.setInstructor(dto.getTeacher().getFullName());
+                    c.setDescription(dto.getDescription());
+                    c.setCategory(dto.getCategory().getName());
+                    c.setImageUrl(dto.getThumbnail());
+                    c.setPrice("0");
+                    courseList.add(c);
+                }
+                courseAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
         });
     }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -4291,7 +4467,15 @@ File: app/src/main/res/layout/activity_course_list.xml
         android:background="#212121"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
     <!-- RecyclerView danh sách khóa học -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -4474,7 +4658,16 @@ File: app/src/main/res/layout/activity_main.xml
                     android:textStyle="bold"
                     android:textColor="#212121"
                     android:layout_marginBottom="8dp" />
-
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCourses"
                     android:layout_width="match_parent"
@@ -5499,6 +5692,15 @@ File: app/src/main/res/layout/item_course.xml
             android:text="Instructor Name"
             android:textSize="16sp"
             android:textColor="#BB86FC"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/courseCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category Name"
+            android:textSize="14sp"
+            android:textColor="#666666"
             android:layout_marginTop="4dp" />
 
         <Button

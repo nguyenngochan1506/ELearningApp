@@ -3,12 +3,14 @@ package vn.edu.hcmuaf.e_learningapp.features.module.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
+
 public class ModuleResponseDto implements Serializable {
     private Long id;
     private String name;
     private String description;
     private Integer number;
-    private List<ModuleResponseDto> lessons;
+    private List<LessonResponseDto> lessons;
 
     public Long getId() {
         return id;
@@ -42,11 +44,11 @@ public class ModuleResponseDto implements Serializable {
         this.number = number;
     }
 
-    public List<ModuleResponseDto> getLessons() {
+    public List<LessonResponseDto> getLessons() {
         return lessons;
     }
 
-    public void setLessons(List<ModuleResponseDto> lessons) {
+    public void setLessons(List<LessonResponseDto> lessons) {
         this.lessons = lessons;
     }
 }

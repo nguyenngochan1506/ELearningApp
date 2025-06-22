@@ -24,6 +24,9 @@ public class Lesson implements Serializable {
         this.videoUrl = videoUrl;
     }
 
+    public Lesson() {
+    }
+
     public int getId() {
         return id;
     }
