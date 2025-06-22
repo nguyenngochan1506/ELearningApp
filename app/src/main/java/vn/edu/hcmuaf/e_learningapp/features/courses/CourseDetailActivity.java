@@ -14,8 +14,11 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.Serializable;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
+import vn.edu.hcmuaf.e_learningapp.features.module.Module;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -50,6 +53,13 @@ public class CourseDetailActivity extends AppCompatActivity {
         btnEnroll.setOnClickListener(v -> {
             Intent intent = new Intent(this, LessonActivity.class);
             intent.putExtra("course_id", course.getId());
+            if (course.getModules() != null && !course.getModules().isEmpty()) {
+                Module firstModule = course.getModules().get(0);
+                if (firstModule.getLessons() != null && !firstModule.getLessons().isEmpty()) {
+                    intent.putExtra("video_url", firstModule.getLessons().get(0).getVideoUrl());
+                    intent.putExtra("modules", (Serializable) course.getModules());
+                }
+            }
             startActivity(intent);
         });
     }
