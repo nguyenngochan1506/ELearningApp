@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)
             } else if (id == R.id.nav_profile) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
             drawerLayout.closeDrawer(GravityCompat.START);
