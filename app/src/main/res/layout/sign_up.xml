@@ -8,6 +8,28 @@
     android:padding="24dp"
     tools:context=".SignUpActivity">
 
+    <ImageView
+        android:id="@+id/bg_image"
+        android:layout_width="406dp"
+        android:layout_height="721dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_dk_dn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Overlay tối mờ -->
+    <View
+        android:id="@+id/overlay_light"
+        android:layout_width="404dp"
+        android:layout_height="731dp"
+        android:background="#80FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Tiêu đề -->
 
     <!-- Họ và tên -->

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.hcmuaf.e_learningapp.features.chat.ChatActivity;
+import vn.edu.hcmuaf.e_learningapp.features.chat.ChatOverviewActivity;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (id == R.id.nav_chat) {
                 // Navigate to chat activity (placeholder)
-                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChatOverviewActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)

@@ -31,7 +31,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         // Tạm thời set "me" là tin nhắn của bản thân
-        if (messages.get(position).getSenderId().equals("me")) {
+        if (messages.get(position).getSenderId().equals(currentUserId)) {
             return VIEW_TYPE_SELF;
         } else {
             return VIEW_TYPE_OTHER;

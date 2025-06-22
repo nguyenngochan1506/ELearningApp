@@ -22,6 +22,8 @@
     <color name="primary">#4A90E2</color>
     <color name="gray_600">#757575</color>
     <color name="black">#212121</color>
+    <color name="blue_gradient">#7BD5F5</color>
+    <color name="blue_nhat">#B2D9E8</color>
 
 
 </resources>

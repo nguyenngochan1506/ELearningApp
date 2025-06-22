@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+
+    <!-- Header với icon và tiêu đề -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <!-- Icon quay về -->
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back"
+            android:contentDescription="Quay lại"
+        android:layout_marginEnd="12dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trò chuyện cùng giảng viên"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#000000" />
+    </LinearLayout>
+
+    <!-- Tab menu ngang -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#757575"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/holo_blue_dark"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/holo_blue_light"
+        app:tabTextColor="@android:color/darker_gray">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tất cả tin nhắn" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách khóa học" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Nội dung tab -->
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="23dp"
+        android:layout_weight="1"
+        android:textColor="#757575" />
+
+
+        <!-- Tab 1: Chat list -->
+        <include
+            android:id="@+id/layout_chats"
+            layout="@layout/tab_chats" />
+
+          <!-- Tab 2: Course list -->
+        <include
+         android:id="@+id/layout_courses"
+         layout="@layout/tab_courses"
+         android:visibility="gone" />
+
+</LinearLayout>
