@@ -10,6 +10,16 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/bg_image"
+            android:layout_width="406dp"
+            android:layout_height="721dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bgmain"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar_layout"
@@ -28,7 +38,6 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#FAFAFA"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
