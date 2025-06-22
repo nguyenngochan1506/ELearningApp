@@ -28,7 +28,7 @@
             android:text="Course Title"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/courseInstructor"
@@ -37,39 +37,6 @@
             android:text="Instructor Name"
             android:textSize="16sp"
             android:textColor="#BB86FC"
-            android:layout_marginTop="4dp" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:max="100" />
-
-        <TextView
-            android:id="@+id/progressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0%"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="4dp" />
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:numStars="5"
-            android:stepSize="0.1"
-            android:isIndicator="true" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:textColor="#FFFFFF"
             android:layout_marginTop="4dp" />
 
         <Button
@@ -82,14 +49,6 @@
             android:layout_marginTop="8dp"
             android:backgroundTint="#BB86FC"
             android:textColor="#FFFFFF" />
-        <TextView
-            android:id="@+id/tvRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⭐ 0.0 • 0 học viên"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="4dp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

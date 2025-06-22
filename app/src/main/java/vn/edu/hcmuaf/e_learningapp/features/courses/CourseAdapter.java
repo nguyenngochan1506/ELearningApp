@@ -35,11 +35,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Course course = courseList.get(position);
         holder.courseTitle.setText(course.getTitle());
         holder.courseInstructor.setText(course.getInstructor());
-        holder.progressBar.setProgress(course.getProgress());
-        holder.progressText.setText(course.getProgress() + "%");
         holder.courseImage.setImageResource(course.getImageResId());
-        holder.ratingBar.setRating(course.getRating());
-        holder.tvPrice.setText(course.getPrice());
         holder.btnViewDetails.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CourseDetailActivity.class);
             intent.putExtra("course_title", course.getTitle());
@@ -64,10 +60,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             courseTitle = itemView.findViewById(R.id.courseTitle);
             courseInstructor = itemView.findViewById(R.id.courseInstructor);
             progressBar = itemView.findViewById(R.id.progressBar);
-            progressText = itemView.findViewById(R.id.progressText);
             courseImage = itemView.findViewById(R.id.courseImage);
-            ratingBar = itemView.findViewById(R.id.ratingBar);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
         }
     }
