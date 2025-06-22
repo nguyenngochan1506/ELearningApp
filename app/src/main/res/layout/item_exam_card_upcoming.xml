@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card_border_active"
+    android:padding="16dp"
+    android:layout_marginBottom="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Cột trái -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Tiêu đề + trạng thái badge -->
+            <LinearLayout
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/examTitle"
+                    android:layout_width="169dp"
+                    android:layout_height="wrap_content"
+                    android:text="Bài test JavaScript nâng cao"
+                    android:textColor="#111827"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Bài test JavaScript nâng cao" />
+
+                <TextView
+                    android:id="@+id/statusBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="#FFEDD5"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="8dp"
+                    android:paddingBottom="2dp"
+                    android:text="Sắp diễn ra"
+                    android:textColor="#92400E"
+                    android:textSize="12sp"
+                    tools:text="Sắp diễn ra" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/examSubject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Môn học: JavaScript Chuyên sâu"
+                android:textColor="#6B7280"
+                android:textSize="14sp"
+                tools:text="Môn học: JavaScript Chuyên sâu" />
+
+            <!-- Thông tin chi tiết -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⏱ 45 phút"
+                    android:textColor="#374151"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🗓 09:00 28/05/2024 - 09:45 28/05/2024"
+                    android:textColor="#374151"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👥 32 thí sinh"
+                    android:textColor="#374151"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Cột phải: đồng hồ đếm ngược và nhắc nhở -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/countdownText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⏳ 2 ngày 18 giờ"
+                android:textColor="#DC2626"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp"
+                tools:text="⏳ 2 ngày 18 giờ" />
+
+            <Button
+                android:id="@+id/reminderButton"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#E0F2FE"
+                android:minHeight="42dp"
+                android:text="Nhắc nhở tham gia"
+                android:textColor="#374151"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
