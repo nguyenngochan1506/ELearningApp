@@ -46,6 +46,7 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".features.lesson.LessonActivity" android:hardwareAccelerated="true" /> />
         <activity android:name=".features.exam.ExamListActivity"/>
+        <activity android:name=".features.chat.ChatActivity"/>
         <activity
             android:name="vn.edu.hcmuaf.e_learningapp.features.Quiz.QuizActivity"
             android:exported="false" />

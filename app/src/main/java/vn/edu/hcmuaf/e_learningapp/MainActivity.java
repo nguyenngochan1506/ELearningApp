@@ -14,6 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
+
+import vn.edu.hcmuaf.e_learningapp.features.chat.ChatActivity;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
@@ -57,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_tests) {
                 // Navigate to tests activity (placeholder)
                 Intent intent = new Intent(MainActivity.this, ExamListActivity.class);
+                startActivity(intent);
+            } else if (id == R.id.nav_chat) {
+                // Navigate to chat activity (placeholder)
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                 startActivity(intent);
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)
