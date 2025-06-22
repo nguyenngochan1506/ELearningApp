@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:id="@+id/tvModuleTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên module"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#212121" />
+
+    <TextView
+        android:id="@+id/tvModuleDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mô tả module"
+        android:textSize="14sp"
+        android:textColor="#B0BEC5" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLessons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:layout_marginTop="8dp" />
+</LinearLayout>
