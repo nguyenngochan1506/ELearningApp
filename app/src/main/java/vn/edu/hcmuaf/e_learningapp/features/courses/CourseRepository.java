@@ -21,14 +21,14 @@ public class CourseRepository {
         c1_m1.setName("Chương 1");
         c1_m1.setDescription("Mô tả chương 1");
         c1_m1.setNumber(1);
-        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
 
         Module c1_m2  = new Module();
         c1_m2.setId(2L);
         c1_m2.setName("Chương 2");
         c1_m2.setDescription("Mô tả chương 2");
         c1_m2.setNumber(2);
-        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
 
         c1.setModules(List.of(c1_m1, c1_m2));
 
