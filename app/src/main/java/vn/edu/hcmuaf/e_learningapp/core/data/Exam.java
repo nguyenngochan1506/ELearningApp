@@ -9,9 +9,11 @@ public class Exam {
     public int participants;
     public String remainingTime;
     public String status; // "đang diễn ra" or "sắp diễn ra"
+    public String id;
 
-    public Exam(String title, String course, String duration, String startTime,
+    public Exam(String id, String title, String course, String duration, String startTime,
                 String endTime, int participants, String remainingTime, String status) {
+        this.id = id;
         this.title = title;
         this.course = course;
         this.duration = duration;

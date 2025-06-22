@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.e_learningapp.core.adapter;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.R;
 import vn.edu.hcmuaf.e_learningapp.core.data.Exam;
+import vn.edu.hcmuaf.e_learningapp.features.Quiz.QuizActivity;
 
 public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder> {
     private List<Exam> examList;
@@ -50,6 +52,12 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
     @Override
     public void onBindViewHolder(@NonNull ExamViewHolder holder, int position) {
         Exam exam = examList.get(position);
+
+        holder.actionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), QuizActivity.class);
+            intent.putExtra("exam_id", exam.id);
+            v.getContext().startActivity(intent);
+        });
 
         holder.examTitle.setText(exam.title);
         holder.courseName.setText("Môn học: " + exam.course);
