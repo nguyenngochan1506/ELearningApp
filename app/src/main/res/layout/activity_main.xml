@@ -15,7 +15,7 @@
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -28,7 +28,7 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#212121"
+            android:background="#FAFAFA"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -41,21 +41,11 @@
                     android:id="@+id/tvWeekTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tuần này"
+                    android:text="Khóa học"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#212121"
                     android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/tvViewAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Xem danh sách việc cần làm"
-                    android:textSize="16sp"
-                    android:textColor="#BB86FC"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="16dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCourses"
