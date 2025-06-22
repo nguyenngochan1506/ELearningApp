@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.edu.hcmuaf.e_learningapp.features.exam.Exam;
-import vn.edu.hcmuaf.e_learningapp.features.exam.ExamListAdapter;
-
 public class ExamListFragment extends Fragment {
 
     @Override
