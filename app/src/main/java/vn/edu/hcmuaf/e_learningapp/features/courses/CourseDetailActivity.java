@@ -140,6 +140,14 @@ public class CourseDetailActivity extends AppCompatActivity {
                 Glide.with(CourseDetailActivity.this)
                         .load(course.getImageUrl())
                         .into(imgCover);
+                List<FileResponseDto> files = new ArrayList<>();
+                for (Module module : modules) {
+                    for (Lesson lesson : module.getLessons()) {
+                        if (lesson.getFiles() != null) {
+                            files.addAll(lesson.getFiles());
+                        }
+                    }
+                }
 
                 setupTabs();
             }
@@ -155,11 +163,23 @@ public class CourseDetailActivity extends AppCompatActivity {
 
     private void setupTabs() {
         ViewPager2 viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
 
         if (course == null) return;
 
         CoursePagerAdapter adapter = new CoursePagerAdapter(this, course);
+
+        // TRUYỀN FILES CHO FRAGMENT (bạn cần sửa CoursePagerAdapter để nhận bundle hoặc dữ liệu)
+        List<FileResponseDto> files = new ArrayList<>();
+        for (Module module : course.getModules()) {
+            for (Lesson lesson : module.getLessons()) {
+                if (lesson.getFiles() != null) {
+                    files.addAll(lesson.getFiles());
+                }
+            }
+        }
+
+        adapter.setFiles(files); // bạn cần viết phương thức setFiles trong CoursePagerAdapter
+
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
@@ -171,9 +191,10 @@ public class CourseDetailActivity extends AppCompatActivity {
                     tab.setText("Nội dung khóa học");
                     break;
                 case 2:
-                    tab.setText("Hỏi đáp");
+                    tab.setText("Tài liệu");
                     break;
             }
         }).attach();
     }
+
 }
