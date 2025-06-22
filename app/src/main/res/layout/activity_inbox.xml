@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:orientation="vertical">
 
+    <!-- Tab menu ngang -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabIndicatorColor="@android:color/holo_blue_dark"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
         app:tabTextColor="@android:color/darker_gray"
         app:tabSelectedTextColor="@android:color/black"
-        app:tabIndicatorHeight="3dp" />
+        app:tabIndicatorColor="@android:color/holo_blue_dark">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tất cả tin nhắn" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Danh sách khóa học" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Nội dung tab -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <!-- Tab 1: Chat list -->
+        <include
+            android:id="@+id/layout_chats"
+            layout="@layout/tab_chats" />
+
+        <!-- Tab 2: Course list -->
+        <include
+            android:id="@+id/layout_courses"
+            layout="@layout/tab_courses"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>
