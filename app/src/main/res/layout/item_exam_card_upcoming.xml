@@ -73,6 +73,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/examDuration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="⏱ 45 phút"
@@ -80,6 +81,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/examTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🗓 09:00 28/05/2024 - 09:45 28/05/2024"
@@ -87,6 +89,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/examParticipants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="👥 32 thí sinh"
@@ -123,6 +126,18 @@
                 android:text="Nhắc nhở tham gia"
                 android:textColor="#374151"
                 android:textSize="13sp" />
+            <Button
+                android:id="@+id/actionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xem trước"
+                android:background="@drawable/rounded_button"
+                android:backgroundTint="#E5E7EB"
+                android:minHeight="42dp"
+                android:textColor="#374151"
+                android:textSize="13sp"
+                android:layout_marginTop="8dp" />
+
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
