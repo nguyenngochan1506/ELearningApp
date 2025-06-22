@@ -1,58 +1,25 @@
-package vn.edu.hcmuaf.e_learningapp.features.lesson;
+package vn.edu.hcmuaf.e_learningapp.features.lesson.dto;
 
 import java.io.Serializable;
 import java.util.List;
 
 import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
 
-
-public class Lesson implements Serializable {
-    private int id;
+public class LessonResponseDto implements Serializable {
+    private Long id;
     private String name;
     private String content;
     private Integer number;
     private Integer duration;
-    private String videoUrl;
     private List<FileResponseDto> files;
+    private String videoUrl;
 
-    public Lesson(int id, String name, String content, Integer number, Integer duration, String videoUrl) {
-        this.id = id;
-        this.name = name;
-        this.content = content;
-        this.number = number;
-        this.duration = duration;
-        this.videoUrl = videoUrl;
-    }
-
-    public Lesson() {
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public List<FileResponseDto> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<FileResponseDto> files) {
-        this.files = files;
-    }
-
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", content='" + content + '\'' +
-                ", number=" + number +
-                ", duration=" + duration +
-                ", videoUrl='" + videoUrl + '\'' +
-                '}';
     }
 
     public String getName() {
@@ -85,6 +52,14 @@ public class Lesson implements Serializable {
 
     public void setDuration(Integer duration) {
         this.duration = duration;
+    }
+
+    public List<FileResponseDto> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileResponseDto> files) {
+        this.files = files;
     }
 
     public String getVideoUrl() {

@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -11,14 +13,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.module.Module;
+import vn.edu.hcmuaf.e_learningapp.features.module.dto.ModuleResponseDto;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -36,7 +53,6 @@ public class CourseDetailActivity extends AppCompatActivity {
 
         initViews();
         loadCourseData();
-        setupTabs();
     }
 
     private void initViews() {
@@ -67,26 +83,74 @@ public class CourseDetailActivity extends AppCompatActivity {
     private void loadCourseData() {
         // Get course title from Intent
         Intent intent = getIntent();
-        String courseTitle = intent.getStringExtra("course_title");
+        Long courseId = intent.getLongExtra("course_id", 0);
 
-        // Find course in repository
-        for (Course c : CourseRepository.getCourses()) {
-            if (c.getTitle().equals(courseTitle)) {
-                this.course = c;
-                break;
+        //lay jwt tu sharedrefre
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
+        CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
+        Call<ResponseDto<CourseResponseDto>> call = api.getCourseById(courseId);
+        call.enqueue(new Callback<ResponseDto<CourseResponseDto>>() {
+
+            @Override
+            public void onResponse(Call<ResponseDto<CourseResponseDto>> call, Response<ResponseDto<CourseResponseDto>> response) {
+//                if(!response.isSuccessful() || response.code() !=200){
+//                    Toast.makeText(CourseDetailActivity.this, "Lỗi khi lấy thông tin khóa học", Toast.LENGTH_SHORT).show();
+//                }
+                CourseResponseDto dto = response.body().getData();
+
+                Course c = new Course();
+                c.setId(dto.getId());
+                c.setTitle(dto.getName());
+                c.setInstructor(dto.getTeacher().getFullName());
+                c.setDescription(dto.getDescription());
+                c.setImageUrl(dto.getThumbnail());
+                c.setPrice("0");
+                c.setCategory(dto.getCategory().getName());
+
+                List<Module> modules = new ArrayList<>();
+                for(ModuleResponseDto m : dto.getModules()){
+                    Module module = new Module();
+                    module.setId(m.getId());
+                    module.setName(m.getName());
+                    module.setDescription(m.getDescription());
+                    module.setNumber(m.getNumber());
+                    List<Lesson> lessons = new ArrayList<>();
+                    for(LessonResponseDto l : m.getLessons()){
+                        Lesson lesson = new Lesson();
+                        lesson.setId(Math.toIntExact(l.getId()));
+                        lesson.setName(l.getName());
+                        lesson.setContent(l.getContent());
+                        lesson.setNumber(l.getNumber());
+                        lesson.setDuration(l.getDuration());
+                        lesson.setVideoUrl(l.getVideoUrl());
+                        lesson.setFiles(l.getFiles());
+                        lessons.add(lesson);
+                    }
+                    module.setLessons(lessons);
+                    modules.add(module);
+                }
+                //sort by number
+                modules.sort( (Module m1, Module m2) -> Integer.compare(m1.getNumber(), m2.getNumber()));
+                c.setModules(modules);
+                course = c;
+                tvCourseTitle.setText(course.getTitle());
+                tvInstructor.setText("Giảng viên: " + course.getInstructor());
+                progressBar.setProgress(course.getProgress());
+                Glide.with(CourseDetailActivity.this)
+                        .load(course.getImageUrl())
+                        .into(imgCover);
+
+                setupTabs();
             }
-        }
 
-        if (course != null) {
-            tvCourseTitle.setText(course.getTitle());
-            tvInstructor.setText("Giảng viên: " + course.getInstructor());
-            progressBar.setProgress(course.getProgress());
-            imgCover.setImageResource(course.getImageResId());
-        } else {
-            Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-
+            @Override
+            public void onFailure(Call<ResponseDto<CourseResponseDto>> call, Throwable throwable) {
+                Log.e("CourseDetailActivity", "API Failure: " + throwable.getMessage());
+                Toast.makeText(CourseDetailActivity.this, "Lỗi kết nối: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     private void setupTabs() {

@@ -39,6 +39,15 @@
             android:textColor="#BB86FC"
             android:layout_marginTop="4dp" />
 
+        <TextView
+            android:id="@+id/courseCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Category Name"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp" />
+
         <Button
             android:id="@+id/btnViewDetails"
             android:layout_width="wrap_content"

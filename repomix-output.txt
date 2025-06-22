@@ -52,6 +52,10 @@ app/proguard-rules.pro
 app/src/androidTest/java/vn/edu/hcmuaf/e_learningapp/ExampleInstrumentedTest.java
 app/src/main/AndroidManifest.xml
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/BannerAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/Gender.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/PageResponseDto.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/ResponseDto.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/UserStatus.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/core/adapter/CourseAdapter.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/core/base/BaseActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/core/data/Course.java
@@ -64,34 +68,45 @@ app/src/main/java/vn/edu/hcmuaf/e_learningapp/ExamManagementActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/ExamPagerAdapter.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/Category.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/CategoryAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/dto/CategoryResponseDto.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/dto/SubCategoryResponseDto.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/Course.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseApi.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseDetailActivity.java
-app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseListActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CoursePagerAdapter.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseRepository.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/dto/CoursePageResponseDto.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/dto/CourseResponseDto.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/fragment/ContentFragment.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/fragment/OverviewFragment.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/fragment/QnAFragment.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/exam/Exam.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/exam/ExamListAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/file/FileResponseDto.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/instructors/Instructor.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/instructors/InstructorAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/dto/LessonResponseDto.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/Lesson.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/LessonActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/LessonAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/dto/ModuleResponseDto.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/Module.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/ModuleAdapter.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/result/Result.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/result/ResultsAdapter.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/submission/Submission.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/submission/SubmissionAdapter.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/AuthResponse.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/LoginRequest.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/UserResponse.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/UserActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/UserApi.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/UserRepository.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/GradingFragment.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/LoginActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/MainActivity.java
+app/src/main/java/vn/edu/hcmuaf/e_learningapp/ProfileActivity.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/ResultsFragment.java
 app/src/main/java/vn/edu/hcmuaf/e_learningapp/SignUpActivity.java
 app/src/main/res/drawable-v24/ic_launcher_foreground.xml
@@ -100,19 +115,28 @@ app/src/main/res/drawable/border.xml
 app/src/main/res/drawable/circle_background.xml
 app/src/main/res/drawable/course_background.xml
 app/src/main/res/drawable/ic_add.xml
+app/src/main/res/drawable/ic_avatar_placeholder.xml
+app/src/main/res/drawable/ic_badge.xml
 app/src/main/res/drawable/ic_business.xml
+app/src/main/res/drawable/ic_calendar.xml
+app/src/main/res/drawable/ic_clock.xml
 app/src/main/res/drawable/ic_copy.xml
 app/src/main/res/drawable/ic_delete.xml
 app/src/main/res/drawable/ic_design.xml
 app/src/main/res/drawable/ic_edit.xml
 app/src/main/res/drawable/ic_email.xml
 app/src/main/res/drawable/ic_excel.xml
+app/src/main/res/drawable/ic_gender.xml
+app/src/main/res/drawable/ic_info.xml
 app/src/main/res/drawable/ic_language.xml
 app/src/main/res/drawable/ic_launcher_background.xml
+app/src/main/res/drawable/ic_person.xml
+app/src/main/res/drawable/ic_phone.xml
 app/src/main/res/drawable/ic_programming.xml
 app/src/main/res/drawable/lesson_item_background_selector.xml
 app/src/main/res/drawable/lesson_item_background.xml
 app/src/main/res/drawable/module_card_background.xml
+app/src/main/res/drawable/profile_background.xml
 app/src/main/res/drawable/rounded_button.xml
 app/src/main/res/drawable/search_background.xml
 app/src/main/res/drawable/tab_indicator_rounded.xml
@@ -120,6 +144,7 @@ app/src/main/res/layout/activity_course_list.xml
 app/src/main/res/layout/activity_exam_management.xml
 app/src/main/res/layout/activity_lesson.xml
 app/src/main/res/layout/activity_main.xml
+app/src/main/res/layout/activity_profile.xml
 app/src/main/res/layout/course_detail.xml
 app/src/main/res/layout/course_list.xml
 app/src/main/res/layout/footer.xml
@@ -139,6 +164,7 @@ app/src/main/res/layout/item_lesson.xml
 app/src/main/res/layout/item_module.xml
 app/src/main/res/layout/item_result.xml
 app/src/main/res/layout/item_submission.xml
+app/src/main/res/layout/item_user_info.xml
 app/src/main/res/layout/login.xml
 app/src/main/res/layout/nav_header.xml
 app/src/main/res/layout/sign_up.xml
@@ -151,6 +177,7 @@ app/src/main/res/values/strings.xml
 app/src/main/res/values/themes.xml
 app/src/main/res/xml/backup_rules.xml
 app/src/main/res/xml/data_extraction_rules.xml
+app/src/main/res/xml/network_security_config.xml
 app/src/test/java/vn/edu/hcmuaf/e_learningapp/ExampleUnitTest.java
 build.gradle.kts
 gradle.properties
@@ -174,6 +201,9 @@ File: .gitignore
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/misc.xml
+/.idea/gradle.xml
+/.idea/deploymentTargetSelector.xml
 .DS_Store
 /build
 /captures
@@ -257,6 +287,8 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
 
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
 }
 
@@ -321,6 +353,8 @@ File: app/src/main/AndroidManifest.xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -332,6 +366,7 @@ File: app/src/main/AndroidManifest.xml
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ELearningApp"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
             <activity android:name=".LoginActivity"
                 android:exported="true">
@@ -360,6 +395,7 @@ File: app/src/main/AndroidManifest.xml
         </activity>
 
         <activity android:name=".CourseListActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".features.lesson.LessonActivity" android:hardwareAccelerated="true" /> />
 
     </application>
@@ -413,6 +449,118 @@ public class BannerAdapter extends RecyclerView.Adapter<BannerAdapter.ViewHolder
             ivBanner = itemView.findViewById(R.id.ivBanner);
         }
     }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/Gender.java
+================
+package vn.edu.hcmuaf.e_learningapp.common;
+
+public enum Gender {
+    MALE, FEMALE, OTHER
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/PageResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.common;
+
+import java.io.Serializable;
+
+public class PageResponseDto implements Serializable {
+    private int pageNo;
+    private int pageSize;
+    private long totalElements;
+    private int totalPages;
+
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    public void setTotalElements(long totalElements) {
+        this.totalElements = totalElements;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/ResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.common;
+
+import java.io.Serializable;
+
+public class ResponseDto <T> implements Serializable {
+    private int status;
+    private String message;
+    private T data;
+
+    public int getStatus() {
+        return status;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseDto{" +
+                "status=" + status +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/common/UserStatus.java
+================
+package vn.edu.hcmuaf.e_learningapp.common;
+
+public enum UserStatus {
+    ACTIVE,
+    INACTIVE,
+    BLOCKED
 }
 
 ================
@@ -488,7 +636,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             imgCourseImage = itemView.findViewById(R.id.courseImage);
             tvTitle = itemView.findViewById(R.id.tvCourseTitle);
             tvInstructor = itemView.findViewById(R.id.tvInstructor);
-            tvRating = itemView.findViewById(R.id.tvRating);
+
         }
     }
 }
@@ -601,7 +749,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "http://localhost:8080/api/v1"; // base chay local
+    private static final String BASE_URL = "http://192.168.1.96:8080/api/"; // base chay local
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient(String jwtToken) {
@@ -610,6 +758,7 @@ public class ApiClient {
                     Request original = chain.request();
                     Request request = original.newBuilder()
                             .header("Authorization", "Bearer " + jwtToken)
+                            .header("Accept-Language", "vi")
                             .build();
                     return chain.proceed(request);
                 })
@@ -624,6 +773,22 @@ public class ApiClient {
         }
         return retrofit;
     }
+    public static Retrofit getClientWithoutToken() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request request = original.newBuilder()
+                            .header("Accept-Language", "vi")
+                            .build();
+                    return chain.proceed(request);
+                })
+                .build();
+        return new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
 }
 
 ================
@@ -632,33 +797,85 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/CourseListActivity.java
 package vn.edu.hcmuaf.e_learningapp;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
     private CourseAdapter adapter;
-    private List<Course> courseList;
+    private Toolbar toolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_list);
 
+        // Setup Toolbar
+        toolBar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolBar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Danh sách khóa học");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Hiện nút back
+        }
+
         // Initialize RecyclerView
-        recyclerView = findViewById(R.id.rvCourseList);
+        recyclerView = findViewById(R.id.recyclerView);  // Đúng ID theo XML
+        progressBar = findViewById(R.id.progressBar);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Load courses from repository
-        courseList = CourseRepository.getCourses();
-        adapter = new CourseAdapter(courseList);
-        recyclerView.setAdapter(adapter);
+        // Load courses from API
+        loadCourses();
+    }
+    private void loadCourses(){
+        CourseRepository.getCourses(this, new CourseRepository.CourseCallback() {
+            @Override
+            public void onSuccess(CoursePageResponseDto data) {
+                // Chuyển đổi dữ liệu từ DTO sang model Course
+                List<Course> courseList = new ArrayList<>();
+                for (CourseResponseDto dto : data.getCourses()) {
+                    Course c = new Course();
+                    c.setId(dto.getId());
+                    c.setTitle(dto.getName());
+                    c.setInstructor(dto.getTeacher().getFullName());
+                    c.setDescription(dto.getDescription());
+                    c.setCategory(dto.getCategory().getName());
+                    c.setImageUrl(dto.getThumbnail());
+                    c.setPrice("0");
+                    courseList.add(c);
+                }
+                // Cập nhật adapter
+                adapter = new CourseAdapter(courseList);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(CourseListActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish(); // Đóng activity khi bấm back trên toolbar
+        return true;
     }
 }
 
@@ -909,6 +1126,99 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 }
 
 ================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/dto/CategoryResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.categories.dto;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class CategoryResponseDto implements Serializable {
+    private Long id;
+    private String name;
+    private String description;
+    private String breadcrumb;
+    private List<SubCategoryResponseDto> subCategories;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBreadcrumb() {
+        return breadcrumb;
+    }
+
+    public void setBreadcrumb(String breadcrumb) {
+        this.breadcrumb = breadcrumb;
+    }
+
+    public List<SubCategoryResponseDto> getSubCategories() {
+        return subCategories;
+    }
+
+    public void setSubCategories(List<SubCategoryResponseDto> subCategories) {
+        this.subCategories = subCategories;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/categories/dto/SubCategoryResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.categories.dto;
+
+import java.io.Serializable;
+
+public class SubCategoryResponseDto implements Serializable {
+    private Long id;
+    private String name;
+    private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+}
+
+================
 File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/Course.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.courses;
@@ -923,10 +1233,11 @@ public class Course {
     private String instructor;
     private String description;
     private int progress;
-    private int imageResId;
+    private String imageUrl;
     private float rating;
     private String price;
     private List<Module> modules;
+    private String category;
 
     @Override
     public String toString() {
@@ -936,43 +1247,54 @@ public class Course {
                 ", instructor='" + instructor + '\'' +
                 ", description='" + description + '\'' +
                 ", progress=" + progress +
-                ", imageResId=" + imageResId +
+                ", imageUrl=" + imageUrl +
                 ", rating=" + rating +
                 ", price='" + price + '\'' +
                 ", modules=" + modules +
                 '}';
     }
 
-    public Course(String title, String instructor, int progress, int imageResId, float rating, String price) {
+    public Course(String title, String instructor, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageResId, float rating, String price) {
+    public Course() {
+    }
+
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.id = id;
     }
 
-    public Course(int id, String title, String instructor, String description, int progress, int imageResId, float rating, String price, List<Module> modules) {
+    public Course(int id, String title, String instructor, String description, int progress, String imageResId, float rating, String price, List<Module> modules) {
         this.title = title;
         this.instructor = instructor;
         this.description = description;
         this.progress = progress;
-        this.imageResId = imageResId;
+        this.imageUrl = imageResId;
         this.rating = rating;
         this.price = price;
         this.modules = modules;
         this.id = id;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getTitle() {
@@ -1015,12 +1337,12 @@ public class Course {
         this.progress = progress;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public float getRating() {
@@ -1064,6 +1386,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import vn.edu.hcmuaf.e_learningapp.R;
 
 import java.util.List;
@@ -1088,14 +1413,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
         Course course = courseList.get(position);
         holder.courseTitle.setText(course.getTitle());
         holder.courseInstructor.setText(course.getInstructor());
-        holder.progressBar.setProgress(course.getProgress());
-        holder.progressText.setText(course.getProgress() + "%");
-        holder.courseImage.setImageResource(course.getImageResId());
-        holder.ratingBar.setRating(course.getRating());
-        holder.tvPrice.setText(course.getPrice());
+        holder.courseCategory.setText(course.getCategory());
+
+        //xu ly anh
+        if (course.getImageUrl() != null && !course.getImageUrl().isEmpty()) {
+            Glide.with(holder.itemView.getContext())
+                    .load(course.getImageUrl())
+                    .into(holder.courseImage);
+        }else{
+            holder.courseImage.setImageResource(R.drawable.ic_launcher_background);
+        }
+
         holder.btnViewDetails.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), CourseDetailActivity.class);
             intent.putExtra("course_title", course.getTitle());
+            intent.putExtra("course_id", (long) course.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
@@ -1106,7 +1438,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView courseTitle, courseInstructor, progressText, tvPrice;
+        TextView courseTitle, courseInstructor, progressText, tvPrice, courseCategory;
         ProgressBar progressBar;
         ImageView courseImage;
         RatingBar ratingBar;
@@ -1117,13 +1449,30 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.ViewHolder
             courseTitle = itemView.findViewById(R.id.courseTitle);
             courseInstructor = itemView.findViewById(R.id.courseInstructor);
             progressBar = itemView.findViewById(R.id.progressBar);
-            progressText = itemView.findViewById(R.id.progressText);
             courseImage = itemView.findViewById(R.id.courseImage);
-            ratingBar = itemView.findViewById(R.id.ratingBar);
-            tvPrice = itemView.findViewById(R.id.tvPrice);
             btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+            courseCategory = itemView.findViewById(R.id.courseCategory);
         }
     }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseApi.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.courses;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
+
+public interface CourseApi {
+    @GET("v1/courses")
+    Call<ResponseDto<CoursePageResponseDto>> getAllCourses();
+    @GET("v1/courses/{id}")
+    Call<ResponseDto<CourseResponseDto>> getCourseById(@Path("id") Long id);
 }
 
 ================
@@ -1132,6 +1481,7 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseDetai
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -1142,14 +1492,27 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import vn.edu.hcmuaf.e_learningapp.R;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
 import vn.edu.hcmuaf.e_learningapp.features.lesson.LessonActivity;
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
 import vn.edu.hcmuaf.e_learningapp.features.module.Module;
+import vn.edu.hcmuaf.e_learningapp.features.module.dto.ModuleResponseDto;
 
 public class CourseDetailActivity extends AppCompatActivity {
 
@@ -1198,26 +1561,81 @@ public class CourseDetailActivity extends AppCompatActivity {
     private void loadCourseData() {
         // Get course title from Intent
         Intent intent = getIntent();
-        String courseTitle = intent.getStringExtra("course_title");
+        Long courseId = intent.getLongExtra("course_id", 0);
 
-        // Find course in repository
-        for (Course c : CourseRepository.getCourses()) {
-            if (c.getTitle().equals(courseTitle)) {
-                this.course = c;
-                break;
+        //lay jwt tu sharedrefre
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
+        CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
+        Call<ResponseDto<CourseResponseDto>> call = api.getCourseById(courseId);
+        call.enqueue(new Callback<ResponseDto<CourseResponseDto>>() {
+
+            @Override
+            public void onResponse(Call<ResponseDto<CourseResponseDto>> call, Response<ResponseDto<CourseResponseDto>> response) {
+                if(!response.isSuccessful() || response.code() !=200){
+                    Toast.makeText(CourseDetailActivity.this, "Lỗi khi lấy thông tin khóa học", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+                CourseResponseDto dto = response.body().getData();
+
+                Course c = new Course();
+                c.setId(dto.getId());
+                c.setTitle(dto.getName());
+                c.setInstructor(dto.getTeacher().getFullName());
+                c.setDescription(dto.getDescription());
+                c.setImageUrl(dto.getThumbnail());
+                c.setPrice("0");
+                c.setCategory(dto.getCategory().getName());
+
+                List<Module> modules = new ArrayList<>();
+                for(ModuleResponseDto m : dto.getModules()){
+                    Module module = new Module();
+                    module.setId(m.getId());
+                    module.setName(m.getName());
+                    module.setDescription(m.getDescription());
+                    module.setNumber(m.getNumber());
+                    List<Lesson> lessons = new ArrayList<>();
+                    for(LessonResponseDto l : m.getLessons()){
+                        Lesson lesson = new Lesson();
+                        lesson.setId(Math.toIntExact(l.getId()));
+                        lesson.setName(l.getName());
+                        lesson.setContent(l.getContent());
+                        lesson.setNumber(l.getNumber());
+                        lesson.setDuration(l.getDuration());
+                        lesson.setVideoUrl(l.getVideoUrl());
+                        lesson.setFiles(l.getFiles());
+                        lessons.add(lesson);
+                    }
+                    module.setLessons(lessons);
+                    modules.add(module);
+                }
+
+                c.setModules(modules);
+                course = c;
+                tvCourseTitle.setText(course.getTitle());
+                tvInstructor.setText("Giảng viên: " + course.getInstructor());
+                progressBar.setProgress(course.getProgress());
+                Glide.with(CourseDetailActivity.this)
+                        .load(course.getImageUrl())
+                        .into(imgCover);
+
             }
-        }
 
-        if (course != null) {
-            tvCourseTitle.setText(course.getTitle());
-            tvInstructor.setText("Giảng viên: " + course.getInstructor());
-            progressBar.setProgress(course.getProgress());
-            imgCover.setImageResource(course.getImageResId());
-        } else {
-            Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+            @Override
+            public void onFailure(Call<ResponseDto<CourseResponseDto>> call, Throwable throwable) {
 
+            }
+        });
+//        if (course != null) {
+//            tvCourseTitle.setText(course.getTitle());
+//            tvInstructor.setText("Giảng viên: " + course.getInstructor());
+//            progressBar.setProgress(course.getProgress());
+////            imgCover.setImageResource(course.getImageUrl());
+//        } else {
+//            Toast.makeText(this, "Không tìm thấy khóa học", Toast.LENGTH_SHORT).show();
+//            finish();
+//        }
     }
 
     private void setupTabs() {
@@ -1242,49 +1660,6 @@ public class CourseDetailActivity extends AppCompatActivity {
                     break;
             }
         }).attach();
-    }
-}
-
-================
-File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseListActivity.java
-================
-package vn.edu.hcmuaf.e_learningapp.features.courses;
-
-
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.Arrays;
-import java.util.List;
-
-import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.core.adapter.CourseAdapter;
-import vn.edu.hcmuaf.e_learningapp.core.data.Course;
-
-
-public class CourseListActivity extends AppCompatActivity {
-
-    RecyclerView recyclerView;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.course_list);
-
-        recyclerView = findViewById(R.id.recyclerView);
-
-        List<Course> courseList = Arrays.asList(
-                new Course("Lập trình Java", "Nguyễn Văn A", "4.5", 1200, R.drawable.course_cover),
-                new Course("Android cơ bản", "Trần Thị B", "4.7", 950, R.drawable.course_image1),
-                new Course("Web Fullstack", "Lê Văn C", "4.8", 1800, R.drawable.course_image2)
-        );
-
-        CourseAdapter adapter = new CourseAdapter(this, courseList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
     }
 }
 
@@ -1342,43 +1717,167 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/CourseRepos
 ================
 package vn.edu.hcmuaf.e_learningapp.features.courses;
 
-import java.util.ArrayList;
-import java.util.List;
-import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.features.lesson.Lesson;
-import vn.edu.hcmuaf.e_learningapp.features.module.Module;
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
 
 public class CourseRepository {
+    public interface CourseCallback {
+        void onSuccess(CoursePageResponseDto data);
+        void onError(String errorMessage);
+    }
 
-    public static List<Course> getCourses() {
-        List<Course> courses = new ArrayList<>();
-//        courses.add(new Course("Lập trình nâng cao - DH22DTB", "Nguyễn Đức Công Song", 50, R.drawable.course_image1, 4.9f, "Miễn phí"));
-//        courses.add(new Course("Celebrating Cultures", "Giảng Viên A", 70, R.drawable.course_image2, 4.7f, "500,000 VNĐ"));
+    public static void getCourses(Context context, CourseCallback callback) {
+        CoursePageResponseDto courses = null;
+        //lấy jwt từ sharedpreference
+        SharedPreferences prefs = context.getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
 
-        Course c1 = new Course(1, "Lập trình nâng cao - DH22DTB", "Nguyễn Đức Công Song", "Lập trình Android cơ bản", 50, R.drawable.course_image1, 4.9f, "Miễn phí");
-        Course c2 = new Course(2, "Toán Cao Cấp", "Giảng Viên A", "Toán cao cấp", 70, R.drawable.course_image2, 4.7f, "500,000 VNĐ");
+        CourseApi api = ApiClient.getClient(accessToken).create(CourseApi.class);
+        Call<ResponseDto<CoursePageResponseDto>> call = api.getAllCourses();
+        call.enqueue(new Callback<ResponseDto<CoursePageResponseDto>>() {
+            @Override
+            public void onResponse(Call<ResponseDto<CoursePageResponseDto>> call, Response<ResponseDto<CoursePageResponseDto>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body().getData());
+                } else {
+                    callback.onError("Lỗi khi lấy danh sách khóa học: " + response.message());
+                }
+            }
 
-        Module c1_m1  = new Module();
-        c1_m1.setId(1L);
-        c1_m1.setName("Chương 1");
-        c1_m1.setDescription("Mô tả chương 1");
-        c1_m1.setNumber(1);
-        c1_m1.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+            @Override
+            public void onFailure(Call<ResponseDto<CoursePageResponseDto>> call, Throwable t) {
+                callback.onError("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+}
 
-        Module c1_m2  = new Module();
-        c1_m2.setId(2L);
-        c1_m2.setName("Chương 2");
-        c1_m2.setDescription("Mô tả chương 2");
-        c1_m2.setNumber(2);
-        c1_m2.setLessons(List.of(new Lesson(1, "Bài 1", "Nội dung bài 1", 1, 10, "https://www.youtube.com/watch?v=_8vekzCF04Q"), new Lesson(2, "Bài 2", "Nội dung bài 2", 2, 10, "https://www.youtube.com/watch?v=dQw4w9WgXcQ")));
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/dto/CoursePageResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.courses.dto;
 
-        c1.setModules(List.of(c1_m1, c1_m2));
+import java.util.List;
 
+import vn.edu.hcmuaf.e_learningapp.common.PageResponseDto;
 
-        courses.add(c1);
-        courses.add(c2);
+public class CoursePageResponseDto extends PageResponseDto {
+    private List<CourseResponseDto> courses;
 
+    public CoursePageResponseDto(List<CourseResponseDto> courses) {
+        this.courses = courses;
+    }
+
+    public List<CourseResponseDto> getCourses() {
         return courses;
+    }
+
+    public void setCourses(List<CourseResponseDto> courses) {
+        this.courses = courses;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/courses/dto/CourseResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.courses.dto;
+
+import java.util.List;
+
+import vn.edu.hcmuaf.e_learningapp.features.categories.dto.CategoryResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.module.dto.ModuleResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.UserResponse;
+
+public class CourseResponseDto {
+    private int id;
+    private String name;
+    private String description;
+    private Double price;
+    private String thumbnail;
+    private CategoryResponseDto category;
+    private UserResponse teacher;
+    private boolean isPublished;
+    private List<ModuleResponseDto> modules;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public CategoryResponseDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryResponseDto category) {
+        this.category = category;
+    }
+
+    public UserResponse getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(UserResponse teacher) {
+        this.teacher = teacher;
+    }
+
+    public boolean getPublished() {
+        return isPublished;
+    }
+
+    public void setPublished(boolean published) {
+        isPublished = published;
+    }
+
+    public List<ModuleResponseDto> getModules() {
+        return modules;
+    }
+
+    public void setModules(List<ModuleResponseDto> modules) {
+        this.modules = modules;
     }
 }
 
@@ -1592,6 +2091,61 @@ public class ExamListAdapter extends RecyclerView.Adapter<ExamListAdapter.ExamVi
 }
 
 ================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/file/FileResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.file;
+
+import java.io.Serializable;
+
+public class FileResponseDto implements Serializable {
+    private Long id;
+    private String fileName;
+    private String fileUrl;
+    private String fileType;
+    private Long size;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+}
+
+================
 File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/instructors/Instructor.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.instructors;
@@ -1685,11 +2239,90 @@ public class InstructorAdapter extends RecyclerView.Adapter<InstructorAdapter.Vi
 }
 
 ================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/dto/LessonResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.lesson.dto;
+
+import java.io.Serializable;
+import java.util.List;
+
+import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
+
+public class LessonResponseDto implements Serializable {
+    private Long id;
+    private String name;
+    private String content;
+    private Integer number;
+    private Integer duration;
+    private List<FileResponseDto> files;
+    private String videoUrl;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public List<FileResponseDto> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileResponseDto> files) {
+        this.files = files;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+}
+
+================
 File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/lesson/Lesson.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.lesson;
 
 import java.io.Serializable;
+import java.util.List;
+
+import vn.edu.hcmuaf.e_learningapp.features.file.FileResponseDto;
 
 
 public class Lesson implements Serializable {
@@ -1699,6 +2332,7 @@ public class Lesson implements Serializable {
     private Integer number;
     private Integer duration;
     private String videoUrl;
+    private List<FileResponseDto> files;
 
     public Lesson(int id, String name, String content, Integer number, Integer duration, String videoUrl) {
         this.id = id;
@@ -1709,8 +2343,19 @@ public class Lesson implements Serializable {
         this.videoUrl = videoUrl;
     }
 
+    public Lesson() {
+    }
+
     public int getId() {
         return id;
+    }
+
+    public List<FileResponseDto> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<FileResponseDto> files) {
+        this.files = files;
     }
 
     public void setId(int id) {
@@ -2074,6 +2719,64 @@ public class LessonAdapter extends RecyclerView.Adapter<LessonAdapter.ViewHolder
 }
 
 ================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/dto/ModuleResponseDto.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.module.dto;
+
+import java.io.Serializable;
+import java.util.List;
+
+import vn.edu.hcmuaf.e_learningapp.features.lesson.dto.LessonResponseDto;
+
+public class ModuleResponseDto implements Serializable {
+    private Long id;
+    private String name;
+    private String description;
+    private Integer number;
+    private List<LessonResponseDto> lessons;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public List<LessonResponseDto> getLessons() {
+        return lessons;
+    }
+
+    public void setLessons(List<LessonResponseDto> lessons) {
+        this.lessons = lessons;
+    }
+}
+
+================
 File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/module/Module.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.module;
@@ -2404,6 +3107,219 @@ public class SubmissionAdapter extends RecyclerView.Adapter<SubmissionAdapter.Su
 }
 
 ================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/AuthResponse.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.user.dtos;
+
+import java.io.Serializable;
+
+public class AuthResponse implements Serializable {
+    private String accessToken;
+    private String refreshToken;
+    private long userId;
+
+    // Getters and setters
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthResponse{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/LoginRequest.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.user.dtos;
+
+import java.io.Serializable;
+
+public class LoginRequest implements Serializable {
+    private String email;
+    private String password;
+    private String platform;
+    private String deviceToken;
+
+    public LoginRequest(String email, String password, String platform, String deviceToken) {
+        this.email = email;
+        this.password = password;
+        this.platform = platform;
+        this.deviceToken = deviceToken;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/dtos/UserResponse.java
+================
+package vn.edu.hcmuaf.e_learningapp.features.user.dtos;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import vn.edu.hcmuaf.e_learningapp.common.Gender;
+import vn.edu.hcmuaf.e_learningapp.common.UserStatus;
+
+public class UserResponse {
+    private Long id;
+    private String fullName;
+    private Gender gender;
+    private String dateOfBirth;
+    private String phoneNumber;
+    private String email;
+    private UserStatus status;
+    private String avatar;
+    private String lastLogin;
+    private String createdAt;
+    private String updatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getavatar() {
+        return avatar;
+    }
+
+    public void setavatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public String getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(String lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+}
+
+================
 File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/UserActivity.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.user;
@@ -2418,10 +3334,20 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/features/user/UserApi.java
 ================
 package vn.edu.hcmuaf.e_learningapp.features.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.AuthResponse;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.LoginRequest;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.UserResponse;
 
 public interface UserApi {
+    @POST("auth/login")
+    Call<ResponseDto<AuthResponse>> login(@Body LoginRequest request);
+    @GET("auth/me")
+    Call<ResponseDto<UserResponse>> getProfile();
 }
 
 ================
@@ -2477,7 +3403,11 @@ File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/LoginActivity.java
 package vn.edu.hcmuaf.e_learningapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -2487,12 +3417,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Optional;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.user.UserApi;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.AuthResponse;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.LoginRequest;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText emailInput, passwordInput;
     private Button loginButton;
     private TextView signupText, forgotPasswordText;
-    private ImageButton returnButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -2505,8 +3445,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         signupText = findViewById(R.id.signupText);
         forgotPasswordText = findViewById(R.id.forgotPassword);
-        returnButton = findViewById(R.id.returnIButton);//nút quay lại trang chủ
-      
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -2532,14 +3471,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        //sự kiện click nút quay lại -> trang chủ
-        returnButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
     }
 
+
     private void handleLogin() {
+        if (!isNetworkAvailable()) {
+            Toast.makeText(LoginActivity.this, "Không có kết nối mạng", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String email = emailInput.getText().toString().trim();
         String password = passwordInput.getText().toString().trim();
 
@@ -2547,16 +3486,44 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
             return;
         }
+        // Gọi API đăng nhập
+        UserApi userApi = ApiClient.getClientWithoutToken().create(UserApi.class);
+        LoginRequest request = new LoginRequest(email, password, "ANDROID", "device_token");
+        userApi.login(request).enqueue(new Callback<ResponseDto<AuthResponse>>() {
+            @Override
+            public void onResponse(Call<ResponseDto<AuthResponse>> call, Response<ResponseDto<AuthResponse>> response) {
+                ResponseDto<AuthResponse> authResponse = response.body();
+                if(authResponse == null){
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        if (email.equals("123") && password.equals("123")) {
-            Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                AuthResponse data = authResponse.getData();
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(LoginActivity.this, "Thông tin đăng nhập không đúng!", Toast.LENGTH_SHORT).show();
-        }
+//                 Lưu token vào SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("accessToken", data.getAccessToken());
+                editor.putString("refreshToken", data.getRefreshToken());
+                editor.putLong("userId", data.getUserId());
+                editor.apply();
+                Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+//                 Chuyển sang MainActivity
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDto<AuthResponse>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }
 
@@ -2567,7 +3534,11 @@ package vn.edu.hcmuaf.e_learningapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -2582,6 +3553,8 @@ import java.util.List;
 import vn.edu.hcmuaf.e_learningapp.features.courses.Course;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseAdapter;
 import vn.edu.hcmuaf.e_learningapp.features.courses.CourseRepository;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CoursePageResponseDto;
+import vn.edu.hcmuaf.e_learningapp.features.courses.dto.CourseResponseDto;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -2589,7 +3562,9 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
     private List<Course> courseList;
+    private CourseAdapter courseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -2601,6 +3576,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
         rvCourses = findViewById(R.id.rvCourses);
+        progressBar = findViewById(R.id.progressBar);
 
         // Setup Toolbar
         setSupportActionBar(toolbar);
@@ -2623,7 +3599,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.nav_forum) {
                 // Navigate to forum activity (placeholder)
             } else if (id == R.id.nav_profile) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
             }
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -2632,8 +3608,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup Courses RecyclerView
         rvCourses.setLayoutManager(new LinearLayoutManager(this));
-        courseList = CourseRepository.getCourses() != null ? CourseRepository.getCourses() : new ArrayList<>();
-        CourseAdapter courseAdapter = new CourseAdapter(courseList);
+        courseList = new ArrayList<>();
+        courseAdapter = new CourseAdapter(courseList);
         rvCourses.setAdapter(courseAdapter);
         rvCourses.setHasFixedSize(true);
 
@@ -2641,9 +3617,39 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fabAddCourse = findViewById(R.id.fabAddCourse);
         fabAddCourse.setOnClickListener(v -> {
             // Add logic to add a new course (placeholder)
+            Toast.makeText(MainActivity.this, "Tính năng thêm khóa học chưa được triển khai", Toast.LENGTH_SHORT).show();
+        });
+        // Load courses from API
+        loadCourses();
+    }
+    private void loadCourses() {
+        progressBar.setVisibility(View.VISIBLE);
+        CourseRepository.getCourses(this, new CourseRepository.CourseCallback() {
+            @Override
+            public void onSuccess(CoursePageResponseDto data) {
+                progressBar.setVisibility(View.GONE);
+                courseList.clear();
+                for (CourseResponseDto dto : data.getCourses()) {
+                    Course c = new Course();
+                    c.setId(dto.getId());
+                    c.setTitle(dto.getName());
+                    c.setInstructor(dto.getTeacher().getFullName());
+                    c.setDescription(dto.getDescription());
+                    c.setCategory(dto.getCategory().getName());
+                    c.setImageUrl(dto.getThumbnail());
+                    c.setPrice("0");
+                    courseList.add(c);
+                }
+                courseAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
         });
     }
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -2651,6 +3657,113 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+}
+
+================
+File: app/src/main/java/vn/edu/hcmuaf/e_learningapp/ProfileActivity.java
+================
+package vn.edu.hcmuaf.e_learningapp;
+
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import vn.edu.hcmuaf.e_learningapp.common.ResponseDto;
+import vn.edu.hcmuaf.e_learningapp.core.network.ApiClient;
+import vn.edu.hcmuaf.e_learningapp.features.user.UserApi;
+import vn.edu.hcmuaf.e_learningapp.features.user.dtos.UserResponse;
+
+public class ProfileActivity extends AppCompatActivity {
+
+    private ImageButton btnBack;
+    private ImageView ivUserAvatar;
+    private TextView tvUserId, tvGender, tvDateOfBirth, tvPhone, tvEmail, tvLastLogin,tvFullName;
+    private Button btnEditProfile;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        try {
+            setContentView(R.layout.activity_profile);
+        } catch (Exception e) {
+            Toast.makeText(this, "Error loading profile layout: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        btnBack = findViewById(R.id.btnBack);
+        ivUserAvatar = findViewById(R.id.ivUserAvatar);
+        tvUserId = findViewById(R.id.tvUserId);
+        tvGender = findViewById(R.id.tvGender);
+        tvDateOfBirth = findViewById(R.id.tvDateOfBirth);
+        tvPhone = findViewById(R.id.tvPhone);
+        tvEmail = findViewById(R.id.tvEmail);
+        tvLastLogin = findViewById(R.id.tvLastLogin);
+        btnEditProfile = findViewById(R.id.btnLogout);
+        tvFullName = findViewById(R.id.tvFullName);
+
+        //lấy accesstoken
+        SharedPreferences prefs = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        String accessToken = prefs.getString("accessToken", null);
+
+        UserApi userApi = ApiClient.getClient(accessToken).create(UserApi.class);
+        userApi.getProfile().enqueue(new Callback<ResponseDto<UserResponse>>() {
+            @Override
+            public void onResponse(Call<ResponseDto<UserResponse>> call, Response<ResponseDto<UserResponse>> response) {
+                ResponseDto<UserResponse> responseDto = response.body();
+                if(responseDto == null){
+                    Toast.makeText(ProfileActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                UserResponse data = responseDto.getData();
+                tvUserId.setText("Id: "+String.valueOf(data.getId()));
+                tvGender.setText("Giới tính: "+data.getGender().toString());
+                tvDateOfBirth.setText("Ngày sinh: "+data.getDateOfBirth()+"");
+                tvPhone.setText("Số điện thoại: "+data.getPhoneNumber()+"");
+                tvEmail.setText("Email: "+data.getEmail()+"");
+                tvLastLogin.setText("Lần đăng nhập cuối: "+data.getLastLogin()+"");
+                tvFullName.setText("Họ và tên: "+data.getFullName()+"");
+
+                Glide.with(ProfileActivity.this)
+                        .load(data.getavatar())
+                        .placeholder(R.drawable.ic_avatar_placeholder)
+                        .error(R.drawable.ic_avatar_placeholder)
+                        .circleCrop()
+                        .into(ivUserAvatar);
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseDto<UserResponse>> call, Throwable throwable) {
+                Log.e("API_ERROR", "Lỗi kết nối: " + throwable.getMessage(), throwable);
+                Toast.makeText(ProfileActivity.this, "Lỗi kết nối: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnBack.setOnClickListener(v -> onBackPressed());
+        btnEditProfile.setOnClickListener(v -> {
+            // Xoá token
+            prefs.edit().clear().apply();
+            // Chuyển về LoginActivity và xoá mọi activity trước đó
+            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+            Toast.makeText(ProfileActivity.this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+        });
     }
 }
 
@@ -2852,9 +3965,10 @@ File: app/src/main/res/drawable/border.xml
 ================
 File: app/src/main/res/drawable/circle_background.xml
 ================
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <solid android:color="@android:color/white"/>
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF" />
+    <corners android:radius="50dp" />
 </shape>
 
 ================
@@ -2863,8 +3977,8 @@ File: app/src/main/res/drawable/course_background.xml
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:startColor="#2196F3"
-        android:endColor="#4CAF50"
+        android:startColor="#FAFAFA"
+        android:endColor="#FAFAFA"
         android:angle="45"/>
     <corners android:radius="12dp"/>
 </shape>
@@ -2883,6 +3997,20 @@ File: app/src/main/res/drawable/ic_add.xml
 </vector>
 
 ================
+File: app/src/main/res/drawable/ic_avatar_placeholder.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M234,684Q285,645 348,622.5Q411,600 480,600Q549,600 612,622.5Q675,645 726,684Q761,643 780.5,591Q800,539 800,480Q800,347 706.5,253.5Q613,160 480,160Q347,160 253.5,253.5Q160,347 160,480Q160,539 179.5,591Q199,643 234,684ZM480,520Q421,520 380.5,479.5Q340,439 340,380Q340,321 380.5,280.5Q421,240 480,240Q539,240 579.5,280.5Q620,321 620,380Q620,439 579.5,479.5Q539,520 480,520ZM480,880Q397,880 324,848.5Q251,817 197,763Q143,709 111.5,636Q80,563 80,480Q80,397 111.5,324Q143,251 197,197Q251,143 324,111.5Q397,80 480,80Q563,80 636,111.5Q709,143 763,197Q817,251 848.5,324Q880,397 880,480Q880,563 848.5,636Q817,709 763,763Q709,817 636,848.5Q563,880 480,880ZM480,800Q533,800 580,784.5Q627,769 666,740Q627,711 580,695.5Q533,680 480,680Q427,680 380,695.5Q333,711 294,740Q333,769 380,784.5Q427,800 480,800ZM480,440Q506,440 523,423Q540,406 540,380Q540,354 523,337Q506,320 480,320Q454,320 437,337Q420,354 420,380Q420,406 437,423Q454,440 480,440ZM480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380ZM480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Z"/>
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_badge.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M234,684Q285,645 348,622.5Q411,600 480,600Q549,600 612,622.5Q675,645 726,684Q761,643 780.5,591Q800,539 800,480Q800,347 706.5,253.5Q613,160 480,160Q347,160 253.5,253.5Q160,347 160,480Q160,539 179.5,591Q199,643 234,684ZM480,520Q421,520 380.5,479.5Q340,439 340,380Q340,321 380.5,280.5Q421,240 480,240Q539,240 579.5,280.5Q620,321 620,380Q620,439 579.5,479.5Q539,520 480,520ZM480,880Q397,880 324,848.5Q251,817 197,763Q143,709 111.5,636Q80,563 80,480Q80,397 111.5,324Q143,251 197,197Q251,143 324,111.5Q397,80 480,80Q563,80 636,111.5Q709,143 763,197Q817,251 848.5,324Q880,397 880,480Q880,563 848.5,636Q817,709 763,763Q709,817 636,848.5Q563,880 480,880ZM480,800Q533,800 580,784.5Q627,769 666,740Q627,711 580,695.5Q533,680 480,680Q427,680 380,695.5Q333,711 294,740Q333,769 380,784.5Q427,800 480,800ZM480,440Q506,440 523,423Q540,406 540,380Q540,354 523,337Q506,320 480,320Q454,320 437,337Q420,354 420,380Q420,406 437,423Q454,440 480,440ZM480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380Q480,380 480,380ZM480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Q480,740 480,740Z"/>
+</vector>
+
+================
 File: app/src/main/res/drawable/ic_business.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
@@ -2895,6 +4023,20 @@ File: app/src/main/res/drawable/ic_business.xml
     <path
         android:fillColor="#FF6200EE"
         android:pathData="M4,18H8V6H4V18ZM10,18H14V10H10V18ZM16,18H20V12H16V18ZM2,22H22V20H2V22ZM2,4H22V2H2V4Z" />
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_calendar.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M200,880Q167,880 143.5,856.5Q120,833 120,800L120,240Q120,207 143.5,183.5Q167,160 200,160L240,160L240,80L320,80L320,160L640,160L640,80L720,80L720,160L760,160Q793,160 816.5,183.5Q840,207 840,240L840,800Q840,833 816.5,856.5Q793,880 760,880L200,880ZM200,800L760,800Q760,800 760,800Q760,800 760,800L760,400L200,400L200,800Q200,800 200,800Q200,800 200,800ZM200,320L760,320L760,240Q760,240 760,240Q760,240 760,240L200,240Q200,240 200,240Q200,240 200,240L200,320ZM200,320L200,240Q200,240 200,240Q200,240 200,240L200,240Q200,240 200,240Q200,240 200,240L200,320ZM480,560Q463,560 451.5,548.5Q440,537 440,520Q440,503 451.5,491.5Q463,480 480,480Q497,480 508.5,491.5Q520,503 520,520Q520,537 508.5,548.5Q497,560 480,560ZM320,560Q303,560 291.5,548.5Q280,537 280,520Q280,503 291.5,491.5Q303,480 320,480Q337,480 348.5,491.5Q360,503 360,520Q360,537 348.5,548.5Q337,560 320,560ZM640,560Q623,560 611.5,548.5Q600,537 600,520Q600,503 611.5,491.5Q623,480 640,480Q657,480 668.5,491.5Q680,503 680,520Q680,537 668.5,548.5Q657,560 640,560ZM480,720Q463,720 451.5,708.5Q440,697 440,680Q440,663 451.5,651.5Q463,640 480,640Q497,640 508.5,651.5Q520,663 520,680Q520,697 508.5,708.5Q497,720 480,720ZM320,720Q303,720 291.5,708.5Q280,697 280,680Q280,663 291.5,651.5Q303,640 320,640Q337,640 348.5,651.5Q360,663 360,680Q360,697 348.5,708.5Q337,720 320,720ZM640,720Q623,720 611.5,708.5Q600,697 600,680Q600,663 611.5,651.5Q623,640 640,640Q657,640 668.5,651.5Q680,663 680,680Q680,697 668.5,708.5Q657,720 640,720Z"/>
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_clock.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M438,662L664,436L607,379L438,548L353,463L296,520L438,662ZM480,880Q405,880 339.5,851.5Q274,823 225.5,774.5Q177,726 148.5,660.5Q120,595 120,520Q120,445 148.5,379.5Q177,314 225.5,265.5Q274,217 339.5,188.5Q405,160 480,160Q555,160 620.5,188.5Q686,217 734.5,265.5Q783,314 811.5,379.5Q840,445 840,520Q840,595 811.5,660.5Q783,726 734.5,774.5Q686,823 620.5,851.5Q555,880 480,880ZM480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520Q480,520 480,520ZM224,94L280,150L110,320L54,264L224,94ZM736,94L906,264L850,320L680,150L736,94ZM480,800Q597,800 678.5,718.5Q760,637 760,520Q760,403 678.5,321.5Q597,240 480,240Q363,240 281.5,321.5Q200,403 200,520Q200,637 281.5,718.5Q363,800 480,800Z"/>
 </vector>
 
 ================
@@ -2954,18 +4096,8 @@ File: app/src/main/res/drawable/ic_edit.xml
 ================
 File: app/src/main/res/drawable/ic_email.xml
 ================
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
-
-    <path
-        android:fillColor="#FF000000"
-        android:pathData="M20,8l-8,5 -8,-5V6l8,5 8,-5z"/>
-    <path
-        android:fillColor="#FF000000"
-        android:pathData="M20,4H4c-1.1,0 -2,0.9 -2,2v12c0,1.1 0.9,2 2,2h16c1.1,0 2,-0.9 2,-2V6c0,-1.1 -0.9,-2 -2,-2zm0,2v0.5l-8,5 -8,-5V6h16z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M160,800Q127,800 103.5,776.5Q80,753 80,720L80,240Q80,207 103.5,183.5Q127,160 160,160L800,160Q833,160 856.5,183.5Q880,207 880,240L880,720Q880,753 856.5,776.5Q833,800 800,800L160,800ZM480,520L160,320L160,720Q160,720 160,720Q160,720 160,720L800,720Q800,720 800,720Q800,720 800,720L800,320L480,520ZM480,440L800,240L160,240L480,440ZM160,320L160,240L160,240L160,320L160,720Q160,720 160,720Q160,720 160,720L160,720Q160,720 160,720Q160,720 160,720L160,320Z"/>
 </vector>
 
 ================
@@ -3006,6 +4138,20 @@ File: app/src/main/res/drawable/ic_excel.xml
     <path
         android:fillColor="#107C41"
         android:pathData="M19,13H5V10H19V13Z"/>
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_gender.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M220,880L220,580L160,580L160,360Q160,327 183.5,303.5Q207,280 240,280L360,280Q393,280 416.5,303.5Q440,327 440,360L440,580L380,580L380,880L220,880ZM300,240Q267,240 243.5,216.5Q220,193 220,160Q220,127 243.5,103.5Q267,80 300,80Q333,80 356.5,103.5Q380,127 380,160Q380,193 356.5,216.5Q333,240 300,240ZM600,880L600,640L480,640L582,334Q590,308 611.5,294Q633,280 660,280Q687,280 708.5,294Q730,308 738,334L840,640L720,640L720,880L600,880ZM660,240Q627,240 603.5,216.5Q580,193 580,160Q580,127 603.5,103.5Q627,80 660,80Q693,80 716.5,103.5Q740,127 740,160Q740,193 716.5,216.5Q693,240 660,240Z"/>
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_info.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal" android:autoMirrored="true">
+    <path android:fillColor="@android:color/white" android:pathData="M280,680L560,680L560,600L280,600L280,680ZM280,520L680,520L680,440L280,440L280,520ZM280,360L680,360L680,280L280,280L280,360ZM200,840Q167,840 143.5,816.5Q120,793 120,760L120,200Q120,167 143.5,143.5Q167,120 200,120L760,120Q793,120 816.5,143.5Q840,167 840,200L840,760Q840,793 816.5,816.5Q793,840 760,840L200,840ZM200,760L760,760Q760,760 760,760Q760,760 760,760L760,200Q760,200 760,200Q760,200 760,200L200,200Q200,200 200,200Q200,200 200,200L200,760Q200,760 200,760Q200,760 200,760ZM200,200L200,200Q200,200 200,200Q200,200 200,200L200,760Q200,760 200,760Q200,760 200,760L200,760Q200,760 200,760Q200,760 200,760L200,200Q200,200 200,200Q200,200 200,200Z"/>
 </vector>
 
 ================
@@ -3198,6 +4344,20 @@ File: app/src/main/res/drawable/ic_launcher_background.xml
 </vector>
 
 ================
+File: app/src/main/res/drawable/ic_person.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M480,240Q447,240 423.5,216.5Q400,193 400,160Q400,127 423.5,103.5Q447,80 480,80Q513,80 536.5,103.5Q560,127 560,160Q560,193 536.5,216.5Q513,240 480,240ZM360,880L360,360L120,360L120,280L840,280L840,360L600,360L600,880L520,880L520,640L440,640L440,880L360,880Z"/>
+</vector>
+
+================
+File: app/src/main/res/drawable/ic_phone.xml
+================
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp" android:height="24dp" android:viewportWidth="960" android:viewportHeight="960" android:tint="?attr/colorControlNormal">
+    <path android:fillColor="@android:color/white" android:pathData="M640,440L640,320L520,320L520,240L640,240L640,120L720,120L720,240L840,240L840,320L720,320L720,440L640,440ZM798,840Q673,840 551,785.5Q429,731 329,631Q229,531 174.5,409Q120,287 120,162Q120,144 132,132Q144,120 162,120L324,120Q338,120 349,129.5Q360,139 362,152L388,292Q390,308 387,319Q384,330 376,338L279,436Q299,473 326.5,507.5Q354,542 387,574Q418,605 452,631.5Q486,658 524,680L618,586Q627,577 641.5,572.5Q656,568 670,570L808,598Q822,602 831,612.5Q840,623 840,636L840,798Q840,816 828,828Q816,840 798,840ZM241,360L307,294Q307,294 307,294Q307,294 307,294L290,200Q290,200 290,200Q290,200 290,200L201,200Q201,200 201,200Q201,200 201,200Q206,241 215,281Q224,321 241,360ZM599,718Q638,735 678.5,745Q719,755 760,758Q760,758 760,758Q760,758 760,758L760,670Q760,670 760,670Q760,670 760,670L666,651Q666,651 666,651Q666,651 666,651L599,718ZM241,360Q241,360 241,360Q241,360 241,360Q241,360 241,360Q241,360 241,360L241,360Q241,360 241,360Q241,360 241,360L241,360Q241,360 241,360Q241,360 241,360ZM599,718L599,718Q599,718 599,718Q599,718 599,718L599,718Q599,718 599,718Q599,718 599,718L599,718Q599,718 599,718Q599,718 599,718Q599,718 599,718Q599,718 599,718Z"/>
+</vector>
+
+================
 File: app/src/main/res/drawable/ic_programming.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
@@ -3250,6 +4410,17 @@ File: app/src/main/res/drawable/module_card_background.xml
 </shape>
 
 ================
+File: app/src/main/res/drawable/profile_background.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="#FFFFFF"
+        android:endColor="#FFFFFF"
+        android:angle="90" />
+</shape>
+
+================
 File: app/src/main/res/drawable/rounded_button.xml
 ================
 <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
@@ -3279,37 +4450,43 @@ File: app/src/main/res/drawable/tab_indicator_rounded.xml
 File: app/src/main/res/layout/activity_course_list.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:padding="16dp">
+    android:background="#FFFFFF">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/tvCourseListTitle"
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
         android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#212121"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tất cả khóa học"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#000000"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- RecyclerView for Course List -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCourseList"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvCourseListTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
+    <!-- RecyclerView danh sách khóa học -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        tools:listitem="@layout/item_course" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
 
 ================
 File: app/src/main/res/layout/activity_exam_management.xml
@@ -3450,7 +4627,7 @@ File: app/src/main/res/layout/activity_main.xml
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -3463,7 +4640,7 @@ File: app/src/main/res/layout/activity_main.xml
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#212121"
+            android:background="#FAFAFA"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
@@ -3476,22 +4653,21 @@ File: app/src/main/res/layout/activity_main.xml
                     android:id="@+id/tvWeekTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tuần này"
+                    android:text="Khóa học"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#212121"
                     android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/tvViewAll"
+                <!-- ProgressBar -->
+                <ProgressBar
+                    android:id="@+id/progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Xem danh sách việc cần làm"
-                    android:textSize="16sp"
-                    android:textColor="#BB86FC"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="16dp" />
-
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvCourses"
                     android:layout_width="match_parent"
@@ -3522,6 +4698,139 @@ File: app/src/main/res/layout/activity_main.xml
         app:menu="@menu/nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
+
+================
+File: app/src/main/res/layout/activity_profile.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/profile_background">
+
+    <!-- Header với Avatar và Họ tên -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <!-- Nút quay lại -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_return"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Quay lại" />
+
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/ivUserAvatar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:src="@drawable/ic_avatar_placeholder"
+            android:background="@drawable/circle_background"
+            android:contentDescription="Ảnh đại diện"
+            android:scaleType="centerCrop" />
+
+        <!-- Tên người dùng -->
+        <TextView
+            android:id="@+id/tvFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/ivUserAvatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp" />
+    </RelativeLayout>
+
+    <!-- Khu vực thông tin -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="#FFFFFF">
+
+        <!-- ID -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_badge" android:contentDescription="ID" />
+            <TextView android:id="@+id/tvUserId" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Mã người dùng" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+
+        <!-- Gender -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_gender" android:contentDescription="Giới tính" />
+            <TextView android:id="@+id/tvGender" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Giới tính" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+
+        <!-- Date of birth -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_calendar" android:contentDescription="Ngày sinh" />
+            <TextView android:id="@+id/tvDateOfBirth" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Ngày sinh" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+
+        <!-- Phone -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_phone" android:contentDescription="Số điện thoại" />
+            <TextView android:id="@+id/tvPhone" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Số điện thoại" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+
+        <!-- Email -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_email" android:contentDescription="Email" />
+            <TextView android:id="@+id/tvEmail" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Email" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+
+        <!-- Last login -->
+        <LinearLayout android:orientation="horizontal" android:padding="8dp"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView android:layout_width="24dp" android:layout_height="24dp"
+                android:src="@drawable/ic_clock" android:contentDescription="Lần đăng nhập cuối" />
+            <TextView android:id="@+id/tvLastLogin" android:layout_marginStart="16dp"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Lần đăng nhập cuối" android:textSize="16sp" android:textColor="#333" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Nút đăng xuất -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng xuất"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/border_button"
+        android:layout_margin="16dp" />
+</LinearLayout>
 
 ================
 File: app/src/main/res/layout/course_detail.xml
@@ -3649,16 +4958,24 @@ File: app/src/main/res/layout/course_detail.xml
 File: app/src/main/res/layout/course_list.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
     android:background="#FFFFFF">
 
-    <!-- ✅ Header cố định -->
-    <include layout="@menu/nav_menu" />
+    <!-- Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#212121"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <!-- Tiêu đề trang -->
     <TextView
         android:id="@+id/tvTitle"
@@ -3674,12 +4991,11 @@ File: app/src/main/res/layout/course_list.xml
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="16dp"
         tools:listitem="@layout/item_course" />
-
 
 </LinearLayout>
 
@@ -4367,7 +5683,7 @@ File: app/src/main/res/layout/item_course.xml
             android:text="Course Title"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/courseInstructor"
@@ -4378,37 +5694,13 @@ File: app/src/main/res/layout/item_course.xml
             android:textColor="#BB86FC"
             android:layout_marginTop="4dp" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
+        <TextView
+            android:id="@+id/courseCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:max="100" />
-
-        <TextView
-            android:id="@+id/progressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0%"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="4dp" />
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:numStars="5"
-            android:stepSize="0.1"
-            android:isIndicator="true" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Price"
-            android:textColor="#FFFFFF"
+            android:text="Category Name"
+            android:textSize="14sp"
+            android:textColor="#666666"
             android:layout_marginTop="4dp" />
 
         <Button
@@ -4421,14 +5713,6 @@ File: app/src/main/res/layout/item_course.xml
             android:layout_marginTop="8dp"
             android:backgroundTint="#BB86FC"
             android:textColor="#FFFFFF" />
-        <TextView
-            android:id="@+id/tvRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="⭐ 0.0 • 0 học viên"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="4dp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
@@ -4710,6 +5994,34 @@ File: app/src/main/res/layout/item_submission.xml
 </LinearLayout>
 
 ================
+File: app/src/main/res/layout/item_user_info.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_info"
+        android:contentDescription="icon" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nội dung"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:layout_marginStart="16dp" />
+</LinearLayout>
+
+================
 File: app/src/main/res/layout/login.xml
 ================
 <?xml version="1.0" encoding="utf-8"?>
@@ -4723,16 +6035,6 @@ File: app/src/main/res/layout/login.xml
     tools:context=".LoginActivity">
 
     <!-- return button-->
-    <ImageButton
-        android:id="@+id/returnIButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Return button"
-        android:src="@drawable/ic_return"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo -->
     <ImageView
@@ -5242,6 +6544,17 @@ File: app/src/main/res/xml/data_extraction_rules.xml
     </device-transfer>
     -->
 </data-extraction-rules>
+
+================
+File: app/src/main/res/xml/network_security_config.xml
+================
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">192.168.1.96</domain>
+    </domain-config>
+</network-security-config>
 
 ================
 File: app/src/test/java/vn/edu/hcmuaf/e_learningapp/ExampleUnitTest.java
