@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+
     <color name="blue">#2196F3</color> <!-- Màu xanh dương chuẩn của Material Design -->
     <color name="green">#4CAF50</color> <!-- nút đăng nhập -->
     <color name="teal_700">#018786</color> <!-- chữ "quên mật khẩu" -->
@@ -8,4 +8,20 @@
     <color name="purple_700">#3700B3</color>
     <color name="teal_200">#03DAC5</color>
     <color name="white">#FFFFFF</color>
+    <color name="gray_500">#9E9E9E</color>
+
+    <color name="primary_dark">#357ABD</color>
+    <color name="primary_light">#E6F3FA</color>
+    <color name="accent">#FFC107</color>
+
+
+    <color name="bubble_other">@color/primary_light</color>
+    <color name="bubble_self">#E0E0E0</color>
+
+    <color name="bg_chat">#F4F7F9</color>
+    <color name="primary">#4A90E2</color>
+    <color name="gray_600">#757575</color>
+    <color name="black">#212121</color>
+
+
 </resources>

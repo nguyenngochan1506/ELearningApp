@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- shapes -->
+    <style name="Shape.Corner.12">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+    <style name="Shape.Corner.20">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+    <style name="Shape.Corner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item> <!-- Ví dụ mặc định -->
+    </style>
+    <style name="Shape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item> <!-- Hoặc kích thước bạn cần -->
+    </style>
+
+
+    <!-- icon button -->
+<!--    <style name="Widget.IconButtonBorderless" parent="Widget.MaterialComponents.ImageButton">-->
+<!--        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>-->
+<!--        <item name="android:padding">8dp</item>-->
+<!--        <item name="android:minWidth">0dp</item>-->
+<!--        <item name="android:minHeight">0dp</item>-->
+<!--        <item name="android:scaleType">centerInside</item>-->
+<!--        <item name="tint">?attr/colorOnSurface</item>-->
+<!--    </style>-->
+
+<!--    &lt;!&ndash; text &ndash;&gt;-->
+<!--    <style name="Text.Name" parent="TextAppearance.Material2.Body2">-->
+<!--        <item name="android:textStyle">bold</item>-->
+<!--    </style>-->
+
+    <style name="Text.Body" parent="TextAppearance.AppCompat.Body1"/>
+    <style name="Text.BodySelf" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">#000000</item>
+    </style>
+
+    <style name="Text.Timestamp" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/gray_600</item>
+    </style>
+    <style name="Text.TimestampSelf" parent="Text.Timestamp">
+        <item name="android:textColor">@color/gray_600</item>
+    </style>
+
+    <style name="Text.DateChip" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">@color/gray_600</item>
+    </style>
+
+</resources>
