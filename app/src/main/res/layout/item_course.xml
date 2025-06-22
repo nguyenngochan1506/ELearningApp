@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@drawable/course_background">
 
         <ImageView
             android:id="@+id/courseImage"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             android:src="@drawable/course_image1" />
 
@@ -26,71 +26,70 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Course Title"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp" />
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/courseInstructor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Instructor Name"
-            android:textSize="14sp"
+            android:textSize="16sp"
+            android:textColor="#BB86FC"
+            android:layout_marginTop="4dp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="100" />
+
+        <TextView
+            android:id="@+id/progressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0%"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="4dp" />
 
         <RatingBar
             android:id="@+id/ratingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:numStars="5"
             android:stepSize="0.1"
-            android:layout_marginTop="4dp"
-            style="?android:attr/ratingBarStyleSmall" />
+            android:isIndicator="true" />
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Price"
-            android:textSize="14sp"
-            android:textColor="#FF6200EE"
+            android:textColor="#FFFFFF"
             android:layout_marginTop="4dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical" />
-
-            <TextView
-                android:id="@+id/progressText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0%"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnViewDetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Xem chi tiết"
-            android:layout_marginTop="8dp" />
-    </LinearLayout>
+            android:layout_gravity="end"
+            android:visibility="visible"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#BB86FC"
+            android:textColor="#FFFFFF" />
+        <TextView
+            android:id="@+id/tvRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="⭐ 0.0 • 0 học viên"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="4dp" />
 
-    <TextView
-        android:id="@+id/tvRating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_marginTop="4dp" />
+    </LinearLayout>
 </androidx.cardview.widget.CardView>
