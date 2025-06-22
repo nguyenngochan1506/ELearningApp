@@ -50,6 +50,7 @@
         <activity android:name=".features.Quiz.QuizActivity"/>
 
         <activity android:name=".features.chat.ChatOverviewActivity"/>
+        <activity android:name=".features.forum.ForumActivity"/>
 
 
     </application>

@@ -7,4 +7,12 @@
     <string name="avatar">Ảnh đại diện</string>
     <string name="message_hint">Nhập tin nhắn...</string>
 
+    <string-array name="topic_filter">
+        <item>Tất cả chủ đề</item>
+        <item>Java</item>
+        <item>Android</item>
+        <item>Trí tuệ nhân tạo</item>
+        <item>Web Frontend</item>
+    </string-array>
+
 </resources>
