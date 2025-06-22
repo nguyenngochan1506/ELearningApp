@@ -9,6 +9,15 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
+    <style name="Shape.Corner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item> <!-- Ví dụ mặc định -->
+    </style>
+    <style name="Shape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item> <!-- Hoặc kích thước bạn cần -->
+    </style>
+
 
     <!-- icon button -->
 <!--    <style name="Widget.IconButtonBorderless" parent="Widget.MaterialComponents.ImageButton">-->

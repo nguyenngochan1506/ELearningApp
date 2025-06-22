@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Locale;
 
 import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.core.adapter.ChatAdapter;
-import vn.edu.hcmuaf.e_learningapp.core.data.Chat;
 
 public class ChatActivity extends AppCompatActivity {
 

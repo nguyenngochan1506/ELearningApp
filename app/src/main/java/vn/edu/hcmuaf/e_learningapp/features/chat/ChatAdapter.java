@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.e_learningapp.core.adapter;
+package vn.edu.hcmuaf.e_learningapp.features.chat;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.content.Context;
 
 
 import vn.edu.hcmuaf.e_learningapp.R;
-import vn.edu.hcmuaf.e_learningapp.core.data.Chat;
 
 public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
