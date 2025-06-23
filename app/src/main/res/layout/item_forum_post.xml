@@ -57,6 +57,16 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_shared_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã chia sẻ bài viết của Nguyễn Văn A"
+            android:textSize="12sp"
+            android:textColor="#555555"
+            android:visibility="gone"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp" />
         <!-- Tiêu đề -->
         <TextView
             android:id="@+id/tv_title"

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- Ảnh nền mờ -->
+    <ImageView
+        android:id="@+id/bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bgmain"
+        android:alpha="0.3" />
+
+    <!-- Nội dung dialog -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_edittext"
+        android:padding="16dp"
+        android:layout_margin="16dp"
+        android:layout_gravity="center"
+        android:elevation="4dp">
+
+        <!-- Tiêu đề dialog -->
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo bài viết mới"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:gravity="center"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Spinner chọn chủ đề -->
+        <Spinner
+            android:id="@+id/spinner_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/topic_filter"
+            android:background="@drawable/bg_input_area"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Tiêu đề bài viết -->
+        <EditText
+            android:id="@+id/edt_post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tiêu đề bài viết"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_input_area"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Nội dung bài viết -->
+        <EditText
+            android:id="@+id/edt_post_content"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:hint="Nội dung bài viết"
+            android:inputType="textMultiLine"
+            android:textColor="@color/black"
+            android:gravity="top"
+            android:background="@drawable/bg_input_area"
+            android:padding="10dp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Bộ đếm ký tự -->
+        <TextView
+            android:id="@+id/tv_char_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0/500 ký tự"
+            android:textSize="12sp"
+            android:textColor="#757575"
+            android:gravity="end"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Nút thêm ảnh đính kèm -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/btn_attach_image"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_attach"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Đính kèm ảnh"
+                app:tint="@color/primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thêm ảnh hoặc file"
+                android:textSize="14sp"
+                android:textColor="@color/primary"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+        <!-- Nút Đăng & Hủy -->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:gravity="end">-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btn_cancel_post"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Hủy"-->
+<!--                android:backgroundTint="@android:color/darker_gray"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:paddingHorizontal="16dp"-->
+<!--                android:layout_marginEnd="8dp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btn_submit_post"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Đăng"-->
+<!--                android:backgroundTint="@color/primary"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:paddingHorizontal="16dp"/>-->
+<!--        </LinearLayout>-->
+    </LinearLayout>
+</FrameLayout>
